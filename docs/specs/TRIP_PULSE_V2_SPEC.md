@@ -1,6 +1,6 @@
 # Trip Pulse v2 — Specification
 
-**Status:** **Independently verified** — product-owner acceptance pending.
+**Status:** **Product-owner accepted** · **Closed**.
 **Phase:** 1.3 — Soft Coastal Design System and Trip Pulse v2.
 **Depends on:** Phase 1.2 closure (independent QA + Nicole product-owner acceptance).
 **Does not modify:** Readiness truth model (`booking-readiness`, `day-readiness`, `packing-storage`) unless separately authorized.
@@ -131,7 +131,7 @@ Per Soft Coastal system: one primary per section; secondary outline; quiet ghost
 - [x] Readiness dimensions truthful vs Logistics/Packing (logic unchanged in Phase 1.3)
 - [x] Ribbon a11y contract preserved (keyboard + reduced-motion scroll; mount-scroll guard in closure pass)
 - [x] Passes design gate at 390 / 768 / 1024 / 1440 (no page-level horizontal overflow observed)
-- [ ] Nicole product-owner acceptance recorded
+- [x] Nicole product-owner acceptance recorded (D-033 — 2026-07-12)
 - [x] Independent QA pass on interaction states (`ecd6377`)
 
 ---
@@ -140,4 +140,4 @@ Per Soft Coastal system: one primary per section; secondary outline; quiet ghost
 
 Phase 1.3 applied Soft Coastal semantic tokens, journey-first Trip Pulse composition, P2 interaction-quality fixes, and closure hardening (`JourneyRibbon` mount-scroll guard, Trip Mode 44px complete/skip targets). Readiness algorithms and `mockData.ts` were not modified.
 
-**Pending before acceptance:** Nicole product-owner walkthrough; GitHub CI green run (CI remote result pending manual confirmation per D-030).
+**Acceptance recorded:** Nicole (2026-07-12): *"I accept Phase 1.3"*. GitHub CI green on `ecd6377` and `6096a81`.

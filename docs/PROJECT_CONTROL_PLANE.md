@@ -25,8 +25,8 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 | Phase 1 Trip Pulse | **Implemented** |
 | Phase 1.1 truthfulness & hardening | **Implemented** · **Automatically verified** (consolidated at `ecd6377`) |
 | Phase 1.2 independent QA + Nicole acceptance | **Independently verified** · **Product-owner accepted** · **Closed** |
-| Phase 1.3 Soft Coastal + Trip Pulse v2 | **Independently verified** — product-owner acceptance pending |
-| Phase 1.4 verification, acceptance, and 2A authorization | **Authorized** — closure prep in progress |
+| Phase 1.3 Soft Coastal + Trip Pulse v2 | **Product-owner accepted** · **Closed** |
+| Phase 1.4 verification, acceptance, and 2A authorization | **Authorized** — awaiting Phase 2A authorization |
 | Phase 2A journey domain model | **Not started** — **blocked** |
 | Phase 2B Spain structured data | **Not started** |
 | Phase 2C journey readiness validation | **Not started** |
@@ -44,17 +44,17 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 | Gate | Status |
 |---|---|
 | Automated typecheck / test / build | **Passed locally** at `ecd6377` — 6 test files / 48 tests; build passed |
-| GitHub Actions CI | **CI remote result pending manual confirmation** — workflow present at `.github/workflows/ci.yml` |
+| GitHub Actions CI | **Passed (CI-backed)** — green on `ecd6377` and `6096a81` ([run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270), [run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442)) |
 | Independent QA (Phase 1.2) | **Approved** — evidence consolidated at `ecd6377` |
 | Nicole product-owner acceptance (Phase 1.2) | **Accepted** — packing reset and anchor consistency verified manually |
 | Independent QA (Phase 1.3) | **Approved** — evidence consolidated at `ecd6377`; responsive/a11y closure passed |
-| Nicole product-owner acceptance (Phase 1.3) | **Not recorded** |
-| Phase 1.4 authorization | **Authorized** — non-feature gate phase; Phase 2A remains blocked |
-| Phase 2A authorization | **Not authorized** — blocked until Gate 6 + green CI |
+| Nicole product-owner acceptance (Phase 1.3) | **Accepted** — 2026-07-12; Nicole: *"I accept Phase 1.3"* (D-033) |
+| Phase 1.4 authorization | **Authorized** — non-feature gate phase |
+| Phase 2A authorization | **Not authorized** — blocked until Nicole explicitly authorizes Phase 2A |
 
 **Phase 1.4 evidence collected:** clean GitHub baseline pushed to `main` at `ecd6377`; local typecheck/test/build pass; docs/control-plane sync; CI workflow committed.
 
-**Phase 1.4 evidence still required:** Nicole product-owner walkthrough for Phase 1.3; GitHub Actions green run recorded; explicit Phase 2A authorization after acceptance.
+**Phase 1.4 evidence still required:** explicit Phase 2A authorization; optional accepted-baseline tag on `main`.
 
 ---
 
@@ -80,9 +80,7 @@ See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for Phases 4–9.
 |---|---|
 | `mockData.ts` vs master note conflicts | 12 documented — resolved in Phase 2B |
 | July 28 `TripDay` missing | Deferred to Phase 2B |
-| Phase 1.3 product-owner acceptance | Nicole PO walkthrough — **not recorded** |
-| GitHub CI confirmation | **CI remote result pending manual confirmation** |
-| Phase 2A authorization | **Blocked** — requires Gate 6 + green CI |
+| Phase 2A authorization | **Blocked** — requires explicit Nicole authorization for Phase 2A |
 | Map first-install risk | Disposable spike authorized by D-029; production implementation remains Phase 3 |
 
 ---
@@ -134,7 +132,7 @@ Full log: [DECISION_LOG.md](DECISION_LOG.md)
 5. Do not invent accepted or independently verified work.
 6. When blocked, stop — do not expand scope.
 
-**Current authorization:** Phase 1.4 gate work is **authorized**. Phase 1.3 is independently verified at `ecd6377`, but **do not start Phase 2A** until Nicole product-owner acceptance is recorded, GitHub CI is green, and Phase 2A is explicitly authorized. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
+**Current authorization:** Phase 1.4 gate work is **authorized**. Phase 1.3 is **closed** (D-033). **Do not start Phase 2A** until Nicole explicitly authorizes Phase 2A. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
 
 ---
 

@@ -4,6 +4,21 @@ ADR-lite format. Newest first.
 
 ---
 
+## D-033 — Phase 1.3 product-owner acceptance
+
+| Field | Value |
+|---|---|
+| **ID** | D-033 |
+| **Date / phase** | 2026-07-12 / Phase 1.4 (Gate 6) |
+| **Decision** | Nicole product-owner accepts Phase 1.3 — Soft Coastal Design System and Trip Pulse v2 |
+| **Rationale** | Gate 6 requires explicit product-owner sign-off before Phase 2A authorization; implementation and independent QA were already verified with CI-backed green runs |
+| **Consequence** | Phase 1.3 is **closed**; Phase 1.4 handoff track B is complete; Phase 2A remains blocked until Nicole explicitly authorizes Phase 2A |
+| **Revisit if** | Material regressions in Trip Pulse hierarchy, Soft Coastal taste, ribbon keyboard behavior, or Trip Mode controls |
+
+**Evidence:** Nicole statement (2026-07-12): *"I accept Phase 1.3"*. Accepted application baseline: `ecd6377` on `main`. CI-backed verification: [run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270), [run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442).
+
+---
+
 ## D-032 — Clean GitHub baseline reset
 
 | Field | Value |
@@ -44,6 +59,8 @@ ADR-lite format. Newest first.
 | **Rationale** | A one-time local verification run is useful evidence, but it becomes stale after the next commit |
 | **Consequence** | Release gates now distinguish local evidence from CI-backed verification; Phase 3 and Phase 9 must include demo reliability, fallback, and performance-budget evidence |
 | **Revisit if** | CI is unavailable for the repository |
+
+**Evidence (2026-07-12):** GitHub Actions CI green on `main` at `ecd6377` ([run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270)) and `6096a81` ([run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442)); verified via GitHub API.
 
 ---
 

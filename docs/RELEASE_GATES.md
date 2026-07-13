@@ -55,9 +55,9 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Phase 1.2:** ✅ Automatically verified (48 tests) — evidence consolidated at `ecd6377`
 
-**Phase 1.3:** ✅ Locally verified at `ecd6377` (48 tests, typecheck, build, `git diff --check`)
+**Phase 1.3:** ✅ Automatically verified (CI-backed) — `ecd6377` / `6096a81`; 48 tests, typecheck, build, `git diff --check`
 
-**Phase 1.4 / CI:** ⏳ GitHub Actions workflow committed at `ecd6377` — **CI remote result pending manual confirmation** (D-030)
+**Phase 1.4 / CI:** ✅ GitHub Actions green — [run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270) (`ecd6377`), [run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442) (`6096a81`) (D-030)
 
 ---
 
@@ -104,7 +104,7 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Phase 1.2:** ✅ Accepted — Nicole verified packing reset and anchor consistency manually
 
-**Phase 1.3:** ⏳ Not accepted — Nicole walkthrough pending
+**Phase 1.3:** ✅ Accepted — Nicole (2026-07-12): *"I accept Phase 1.3"* (D-033)
 
 ---
 
@@ -167,4 +167,4 @@ Nicole waives with written reason → ADR in [DECISION_LOG.md](DECISION_LOG.md).
 
 **Approved sequence after acceptance:** Phase 1.3 → Phase 1.4 → Phase 2A → Phase 2B → Phase 2C → Phase 3
 
-**Phase 1.3 P2 backlog** (Phase 1.2 carry-forward): **closed in implementation** — see [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) closure table. QA approved; Nicole acceptance still required.
+**Phase 1.3 P2 backlog** (Phase 1.2 carry-forward): **closed in implementation** — see [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) closure table. QA approved; Nicole acceptance recorded (D-033).

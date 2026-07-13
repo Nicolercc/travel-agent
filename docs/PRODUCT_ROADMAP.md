@@ -8,8 +8,8 @@ Ordered delivery plan. Status vocabulary (use exactly — do not say "complete" 
 
 ## Approved sequencing (post–Phase 1.2)
 
-1. **Phase 1.3** — Soft Coastal Design System and Trip Pulse v2 *(independently verified — PO acceptance pending)*
-2. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization *(authorized — current gate phase)*
+1. **Phase 1.3** — Soft Coastal Design System and Trip Pulse v2 *(product-owner accepted · closed)*
+2. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization *(authorized — awaiting Phase 2A authorization)*
 3. **Phase 2A** — Real journey domain model
 4. **Phase 2B** — Spain 2026 structured data conversion
 5. **Phase 2C** — Journey readiness validation
@@ -102,7 +102,7 @@ Ordered delivery plan. Status vocabulary (use exactly — do not say "complete" 
 | **Implementation owner** | Implementation owner |
 | **Review owner** | Nicole (visual), QA (responsive/a11y) |
 | **Acceptance criteria** | Hierarchy: journey → selected day → guidance → readiness → shortcuts; north-star selected surface; gates at 390/768/1024/1440 |
-| **Status** | **Independently verified** — product-owner acceptance pending |
+| **Status** | **Product-owner accepted** · **Closed** |
 
 **Sequencing risk:** This phase intentionally ships visual hierarchy before the Phase 2A-2C data foundation. Do not change readiness algorithms, trip facts, or `mockData.ts` conflicts in this phase. Phase 2B must include a Trip Pulse reconciliation review after structured data lands.
 
@@ -138,16 +138,16 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner for docs/automation; Nicole for acceptance; QA for verification evidence |
 | **Review owner** | Nicole (product-owner), QA (verification evidence) |
 | **Acceptance criteria** | Gates 3 / 5 / 6 are passed or explicitly limited; Phase 1.3 marked Product-owner accepted if Nicole signs off; clean accepted baseline recorded at `ecd6377`; Phase 2A marked Authorized only after acceptance and green CI |
-| **Status** | **Authorized** — closure prep in progress |
+| **Status** | **Authorized** — awaiting Phase 2A authorization |
 
 ### Phase 1.4 task breakdown
 
 | Track | Task | Owner | Done when |
 |---|---|---|---|
 | A — Verification | Record QA approval on clean baseline `ecd6377` | QA | Gate 5 status updated ✅ |
-| A — Automation | Add CI for `pnpm run typecheck`, `pnpm run test`, `pnpm run build` | Implementation owner | Workflow committed at `ecd6377` ✅; **GitHub green run pending** |
+| A — Automation | Add CI for `pnpm run typecheck`, `pnpm run test`, `pnpm run build` | Implementation owner | Workflow committed at `ecd6377` ✅; green on `ecd6377` and `6096a81` ✅ |
 | A — Automation | Optional repeatable browser smoke for mobile ribbon and Trip Mode 44px targets | Implementation owner | Script or documented local procedure exists |
-| B — Product acceptance | Nicole walkthrough: Trip Pulse hierarchy, Soft Coastal taste, ribbon keyboard, Trip Mode controls | Nicole | Explicit accept / request polish / reject recorded |
+| B — Product acceptance | Nicole walkthrough: Trip Pulse hierarchy, Soft Coastal taste, ribbon keyboard, Trip Mode controls | Nicole | Explicit accept recorded ✅ (D-033) |
 | C — Documentation | Sync roadmap, control plane, release gates, and Trip Pulse spec | Implementation owner | No status contradictions remain ✅ |
 | D — Handoff | Tag accepted baseline and authorize Phase 2A | Nicole / implementation owner | Phase 2A starts from accepted SHA — **blocked** |
 
@@ -167,7 +167,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner |
 | **Review owner** | reviewer (architecture read-only) |
 | **Acceptance criteria** | Model supports legs, events, unresolved tasks, `TripDayKind`; no UI prose as source |
-| **Status** | **Not started** — **blocked** (Gate 6 + green CI required) |
+| **Status** | **Not started** — **blocked** (explicit Phase 2A authorization required) |
 
 ---
 

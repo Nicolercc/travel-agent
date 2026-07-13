@@ -129,7 +129,7 @@ Status vocabulary: **Planned** · **Partial** · **Implemented** · **Automatica
 | **Job** | Aggregate health, next actions, journey navigation, day preview, shortcuts |
 | **Value** | Calm command center |
 | **Success evidence** | ≤3 actionable next steps; readiness matches Logistics/Packing |
-| **Status** | Implemented · Automatically verified (31 unit tests) · PO acceptance pending |
+| **Status** | Implemented · Automatically verified (CI-backed) · Product-owner accepted · Closed |
 | **Components** | `TripHero`, `NextBestActions`, `TripReadiness`, `JourneyRibbon`, `DayPreview`, `QuickAccess`, `RouteVisualization` |
 | **Future** | [TRIP_PULSE_V2_SPEC.md](specs/TRIP_PULSE_V2_SPEC.md) — Phase 1.3 after Phase 1.2 acceptance |
 
