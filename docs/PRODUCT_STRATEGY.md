@@ -2,7 +2,7 @@
 
 **Status:** Canonical product definition.  
 **Last updated:** 2026-07-12
-**Checkpoint:** `bec854c` on `main`
+**Checkpoint:** `ecd6377` on `main` — https://github.com/Nicolercc/travel-agent
 
 ---
 

@@ -2,9 +2,9 @@
 
 **Status:** **Independently verified** — product-owner acceptance pending.
 **Phase:** 1.3 — Soft Coastal Design System and Trip Pulse v2.
-**Depends on:** Phase 1.2 closure (QA independent QA + Nicole product-owner acceptance).
+**Depends on:** Phase 1.2 closure (independent QA + Nicole product-owner acceptance).
 **Does not modify:** Readiness truth model (`booking-readiness`, `day-readiness`, `packing-storage`) unless separately authorized.
-**Branch:** `main` — QA approved review range `98b15e4..bec854c`.
+**Baseline:** `main` at `ecd6377` — https://github.com/Nicolercc/travel-agent
 
 ---
 
@@ -132,7 +132,7 @@ Per Soft Coastal system: one primary per section; secondary outline; quiet ghost
 - [x] Ribbon a11y contract preserved (keyboard + reduced-motion scroll; mount-scroll guard in closure pass)
 - [x] Passes design gate at 390 / 768 / 1024 / 1440 (no page-level horizontal overflow observed)
 - [ ] Nicole product-owner acceptance recorded
-- [x] QA independent QA pass on interaction states (`98b15e4..bec854c`)
+- [x] Independent QA pass on interaction states (`ecd6377`)
 
 ---
 
@@ -140,4 +140,4 @@ Per Soft Coastal system: one primary per section; secondary outline; quiet ghost
 
 Phase 1.3 applied Soft Coastal semantic tokens, journey-first Trip Pulse composition, P2 interaction-quality fixes, and closure hardening (`JourneyRibbon` mount-scroll guard, Trip Mode 44px complete/skip targets). Readiness algorithms and `mockData.ts` were not modified.
 
-**Pending before acceptance:** Nicole product-owner walkthrough; CI-backed automation when available or local-only limitation recorded per D-030.
+**Pending before acceptance:** Nicole product-owner walkthrough; GitHub CI green run (CI remote result pending manual confirmation per D-030).

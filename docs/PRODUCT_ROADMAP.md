@@ -72,13 +72,13 @@ Ordered delivery plan. Status vocabulary (use exactly — do not say "complete" 
 
 ---
 
-## Phase 1.2 — Independent QA QA and Nicole product-owner acceptance
+## Phase 1.2 — Independent QA and Nicole product-owner acceptance
 
 | Field | Value |
 |---|---|
 | **User problem** | Phase 1 / 1.1 not yet independently verified or PO-accepted; P1 state-consistency defects |
 | **Product outcome** | Recorded QA verdict + Nicole acceptance; packing reset and anchor readiness aligned |
-| **Scope** | QA QA on `605e8e7..f93653c`; blocker remediation (`e60a7b7`, `f93653c`); PO walkthrough; gate updates |
+| **Scope** | Independent QA; blocker remediation; PO walkthrough; gate updates — evidence consolidated at `ecd6377` |
 | **Non-goals** | New features beyond P1 fixes, data migration, visual refresh |
 | **Dependencies** | Phase 1.1 automatically verified |
 | **Implementation owner** | Primary implementer (blocker remediation); QA (QA); Nicole (acceptance) |
@@ -106,7 +106,7 @@ Ordered delivery plan. Status vocabulary (use exactly — do not say "complete" 
 
 **Sequencing risk:** This phase intentionally ships visual hierarchy before the Phase 2A-2C data foundation. Do not change readiness algorithms, trip facts, or `mockData.ts` conflicts in this phase. Phase 2B must include a Trip Pulse reconciliation review after structured data lands.
 
-**Independent QA evidence (2026-07-12):** QA approved final closure on clean range `98b15e4..bec854c`; working tree clean; typecheck passed; 6 test files / 48 tests passed; build passed locally; `git diff --check` passed; Trip Pulse responsive/a11y smoke passed at 390 / 768 / 1024 / 1440.
+**Independent QA evidence (2026-07-12):** QA approved Phase 1.3 closure; evidence consolidated in clean baseline `ecd6377` on `main`. Local verification: typecheck passed; 6 test files / 48 tests passed; build passed; `git diff --check` passed; Trip Pulse responsive/a11y smoke passed at 390 / 768 / 1024 / 1440.
 
 ### Phase 1.3 quality backlog (P2 — closed in implementation)
 
@@ -134,24 +134,24 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Product outcome** | Recorded Nicole acceptance, repeatable automation path, clean merge baseline, and explicit Phase 2A authorization |
 | **Scope** | Final QA evidence sync; Nicole product-owner walkthrough; CI workflow for typecheck/test/build if available; docs/control-plane sync; merge/tag/baseline prep; Phase 2A authorization checklist |
 | **Non-goals** | New Trip Pulse features; Soft Coastal redesign; `mockData.ts` changes; readiness algorithm changes; journey domain model; MapLibre |
-| **Dependencies** | Phase 1.3 independent QA approval at `bec854c` |
+| **Dependencies** | Phase 1.3 independent QA approval — consolidated at `ecd6377` |
 | **Implementation owner** | Implementation owner for docs/automation; Nicole for acceptance; QA for verification evidence |
-| **Review owner** | Nicole (product-owner), QA (QA evidence) |
-| **Acceptance criteria** | Gates 3 / 5 / 6 are passed or explicitly limited; Phase 1.3 marked Product-owner accepted if Nicole signs off; clean accepted baseline recorded; Phase 2A marked Authorized only after acceptance |
-| **Status** | **Authorized** |
+| **Review owner** | Nicole (product-owner), QA (verification evidence) |
+| **Acceptance criteria** | Gates 3 / 5 / 6 are passed or explicitly limited; Phase 1.3 marked Product-owner accepted if Nicole signs off; clean accepted baseline recorded at `ecd6377`; Phase 2A marked Authorized only after acceptance and green CI |
+| **Status** | **Authorized** — closure prep in progress |
 
 ### Phase 1.4 task breakdown
 
 | Track | Task | Owner | Done when |
 |---|---|---|---|
-| A — Verification | Record final QA QA approval on `98b15e4..bec854c` | QA | Gate 5 status updated |
-| A — Automation | Add CI for `pnpm run typecheck`, `pnpm run test`, `pnpm run build` | Implementation owner | CI green or local-only limitation recorded |
+| A — Verification | Record QA approval on clean baseline `ecd6377` | QA | Gate 5 status updated ✅ |
+| A — Automation | Add CI for `pnpm run typecheck`, `pnpm run test`, `pnpm run build` | Implementation owner | Workflow committed at `ecd6377` ✅; **GitHub green run pending** |
 | A — Automation | Optional repeatable browser smoke for mobile ribbon and Trip Mode 44px targets | Implementation owner | Script or documented local procedure exists |
 | B — Product acceptance | Nicole walkthrough: Trip Pulse hierarchy, Soft Coastal taste, ribbon keyboard, Trip Mode controls | Nicole | Explicit accept / request polish / reject recorded |
-| C — Documentation | Sync roadmap, control plane, release gates, and Trip Pulse spec | Implementation owner / QA | No status contradictions remain |
-| D — Handoff | Merge/tag accepted baseline and authorize Phase 2A | Nicole / implementation owner | Phase 2A branch starts from accepted SHA |
+| C — Documentation | Sync roadmap, control plane, release gates, and Trip Pulse spec | Implementation owner | No status contradictions remain ✅ |
+| D — Handoff | Tag accepted baseline and authorize Phase 2A | Nicole / implementation owner | Phase 2A starts from accepted SHA — **blocked** |
 
-**Stop rule:** Phase 2A code does not start until Nicole product-owner acceptance is recorded and Phase 2A is explicitly authorized.
+**Stop rule:** Phase 2A code does not start until Nicole product-owner acceptance is recorded, GitHub CI is green, and Phase 2A is explicitly authorized.
 
 ---
 
@@ -167,7 +167,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner |
 | **Review owner** | reviewer (architecture read-only) |
 | **Acceptance criteria** | Model supports legs, events, unresolved tasks, `TripDayKind`; no UI prose as source |
-| **Status** | **Not started** |
+| **Status** | **Not started** — **blocked** (Gate 6 + green CI required) |
 
 ---
 

@@ -1,8 +1,9 @@
 # TripCanvas — Project Control Plane
 
 **Last updated:** 2026-07-12
-**Application baseline:** Phase 1.3 independently verified at `bec854c93a4f06a45eb14c83e163129e8cfbba6f`
-**Documentation baseline:** Phase 1.4 gate phase authorized
+**Application baseline:** `ecd6377` — Initial TripCanvas baseline on `main`
+**GitHub remote:** https://github.com/Nicolercc/travel-agent
+**Documentation baseline:** Phase 1.4 gate closure prep
 
 ---
 
@@ -22,18 +23,19 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 |---|---|
 | Product definition | Substantially complete |
 | Phase 1 Trip Pulse | **Implemented** |
-| Phase 1.1 truthfulness & hardening | **Implemented** · **Automatically verified** |
-| Phase 1.2 QA QA + Nicole acceptance | **Independently verified** · **Product-owner accepted** · **Closed** |
+| Phase 1.1 truthfulness & hardening | **Implemented** · **Automatically verified** (consolidated at `ecd6377`) |
+| Phase 1.2 independent QA + Nicole acceptance | **Independently verified** · **Product-owner accepted** · **Closed** |
 | Phase 1.3 Soft Coastal + Trip Pulse v2 | **Independently verified** — product-owner acceptance pending |
-| Phase 1.4 verification, acceptance, and 2A authorization | **Authorized** — current gate phase |
-| Phase 2A journey domain model | **Not started** |
+| Phase 1.4 verification, acceptance, and 2A authorization | **Authorized** — closure prep in progress |
+| Phase 2A journey domain model | **Not started** — **blocked** |
 | Phase 2B Spain structured data | **Not started** |
 | Phase 2C journey readiness validation | **Not started** |
 | Phase 3 map-led Itinerary | **Planned** |
-| New application implementation | **Paused** — awaiting Phase 1.4 acceptance and Phase 2A authorization |
+| New application implementation | **Paused** — awaiting Phase 1.4 closure and Phase 2A authorization |
 
-**Last completed implementation:** Phase 1.3 application work on `main`, independently verified on range `98b15e4..bec854c`.
-**Active verification/acceptance:** Phase 1.4 — Nicole product-owner acceptance, CI/local automation evidence, merge baseline, and Phase 2A authorization.
+**Repository reset:** Clean single-commit history on `main` at `ecd6377`, pushed to GitHub. Prior commit ranges are superseded; application evidence is consolidated in this baseline.
+
+**Active verification/acceptance:** Phase 1.4 — Nicole product-owner acceptance, GitHub CI confirmation, and Phase 2A authorization.
 
 ---
 
@@ -41,27 +43,27 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 
 | Gate | Status |
 |---|---|
-| Automated typecheck / test / build | Passed locally at `bec854c` — 6 test files / 48 tests; build passed; CI not yet recorded |
-| Independent QA QA (Phase 1.2) | **Approved** — review range `605e8e7..f93653c` |
+| Automated typecheck / test / build | **Passed locally** at `ecd6377` — 6 test files / 48 tests; build passed |
+| GitHub Actions CI | **CI remote result pending manual confirmation** — workflow present at `.github/workflows/ci.yml` |
+| Independent QA (Phase 1.2) | **Approved** — evidence consolidated at `ecd6377` |
 | Nicole product-owner acceptance (Phase 1.2) | **Accepted** — packing reset and anchor consistency verified manually |
-| Independent QA QA (Phase 1.3) | **Approved** — review range `98b15e4..bec854c`; clean tree; responsive/a11y closure passed |
+| Independent QA (Phase 1.3) | **Approved** — evidence consolidated at `ecd6377`; responsive/a11y closure passed |
 | Nicole product-owner acceptance (Phase 1.3) | **Not recorded** |
-| Phase 1.4 authorization | **Authorized** — non-feature gate phase; do not start Phase 2A code |
+| Phase 1.4 authorization | **Authorized** — non-feature gate phase; Phase 2A remains blocked |
+| Phase 2A authorization | **Not authorized** — blocked until Gate 6 + green CI |
 
-**Phase 1.2 evidence:** Working tree clean at acceptance; typecheck, test, build, packing-reset reproduction, and anchor-consistency reproduction all passed.
+**Phase 1.4 evidence collected:** clean GitHub baseline pushed to `main` at `ecd6377`; local typecheck/test/build pass; docs/control-plane sync; CI workflow committed.
 
-**Phase 1.3 evidence collected (closure pass):** clean tree; typecheck/test/build pass locally; `git diff --check` pass; P2 backlog closed; ribbon mount-scroll guard; Trip Mode 44px complete/skip targets; responsive smoke at 390/768/1024/1440 without page-level horizontal overflow; QA approve verdict.
-
-**Phase 1.4 evidence still required:** Nicole product-owner walkthrough; CI-backed automation when available or explicitly recorded as local-only evidence (D-030); accepted baseline / merge SHA before Phase 2A authorization.
+**Phase 1.4 evidence still required:** Nicole product-owner walkthrough for Phase 1.3; GitHub Actions green run recorded; explicit Phase 2A authorization after acceptance.
 
 ---
 
 ## Next authorized application sequence
 
-**Phase 1.4** is the next authorized gate phase:
+**Phase 1.4** is the current gate phase:
 
 1. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization
-2. **Phase 2A** — Real journey domain model
+2. **Phase 2A** — Real journey domain model *(blocked)*
 3. **Phase 2B** — Spain 2026 structured data conversion
 4. **Phase 2C** — Journey readiness validation
 5. **Phase 3** — Flagship map-led Itinerary
@@ -79,8 +81,8 @@ See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for Phases 4–9.
 | `mockData.ts` vs master note conflicts | 12 documented — resolved in Phase 2B |
 | July 28 `TripDay` missing | Deferred to Phase 2B |
 | Phase 1.3 product-owner acceptance | Nicole PO walkthrough — **not recorded** |
-| Phase 1.4 automation evidence | CI-backed gates not recorded; local evidence exists (D-030 limitation) |
-| Phase 1.3 P2 quality backlog | **Closed** in implementation (see [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md)) |
+| GitHub CI confirmation | **CI remote result pending manual confirmation** |
+| Phase 2A authorization | **Blocked** — requires Gate 6 + green CI |
 | Map first-install risk | Disposable spike authorized by D-029; production implementation remains Phase 3 |
 
 ---
@@ -99,6 +101,7 @@ See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for Phases 4–9.
 - Early map spike is disposable planning evidence only, not Phase 3 implementation (D-029)
 - "Automatically verified" should be CI-backed when available (D-030)
 - Phase 1.4 is a non-feature gate phase before Phase 2A (D-031)
+- Clean GitHub baseline on `main` at `ecd6377` supersedes prior history (D-032)
 
 Full log: [DECISION_LOG.md](DECISION_LOG.md)
 
@@ -127,11 +130,11 @@ Full log: [DECISION_LOG.md](DECISION_LOG.md)
 1. Read this file and [README.md](README.md) routing for your role.
 2. Confirm branch and authorized phase in [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md).
 3. **Implementation owner:** edit code only in an authorized implementation phase on the assigned branch.
-4. **reviewer / QA:** read-only unless explicitly reassigned.
+4. **Reviewer / QA:** read-only unless explicitly reassigned.
 5. Do not invent accepted or independently verified work.
 6. When blocked, stop — do not expand scope.
 
-**Current authorization:** Phase 1.4 gate work is **authorized**. Phase 1.3 application work is independently verified at `bec854c`, but **do not start Phase 2A+** until Nicole product-owner acceptance is recorded and Phase 2A is explicitly authorized. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
+**Current authorization:** Phase 1.4 gate work is **authorized**. Phase 1.3 is independently verified at `ecd6377`, but **do not start Phase 2A** until Nicole product-owner acceptance is recorded, GitHub CI is green, and Phase 2A is explicitly authorized. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
 
 ---
 

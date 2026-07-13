@@ -4,6 +4,21 @@ ADR-lite format. Newest first.
 
 ---
 
+## D-032 — Clean GitHub baseline reset
+
+| Field | Value |
+|---|---|
+| **ID** | D-032 |
+| **Date / phase** | 2026-07-12 / Phase 1.4 |
+| **Decision** | Reset repository to a clean single-commit baseline on `main` at `ecd6377`, pushed to https://github.com/Nicolercc/travel-agent, superseding prior git history |
+| **Rationale** | Portfolio-ready GitHub presence requires no legacy provider attribution, no old history, and a known-good demo baseline |
+| **Consequence** | All phase evidence references consolidate to `ecd6377`; prior commit SHAs and feature-branch names are historical only and must not appear in active control-plane docs |
+| **Revisit if** | A new accepted baseline is tagged after Phase 1.3 product-owner acceptance |
+
+**Evidence:** Local typecheck passed; 6 test files / 48 tests passed; build passed; `.github/workflows/ci.yml` present; pushed to `main`.
+
+---
+
 ## D-031 — Phase 1.4 inserted as acceptance and 2A authorization gate
 
 | Field | Value |
@@ -15,7 +30,7 @@ ADR-lite format. Newest first.
 | **Consequence** | Phase 1.4 is a non-feature gate phase; it must not modify `mockData.ts`, readiness logic, trip facts, MapLibre, or Phase 2A domain code |
 | **Revisit if** | Nicole waives Gate 6 or CI remains unavailable after local verification is recorded |
 
-**Evidence:** QA approved final Phase 1.3 closure on clean range `98b15e4..bec854c`; typecheck passed; 6 test files / 48 tests passed; build passed locally; `git diff --check` passed; responsive/a11y smoke passed at 390 / 768 / 1024 / 1440.
+**Evidence:** QA approved Phase 1.3 closure; evidence consolidated in clean baseline `ecd6377`. Local verification: typecheck passed; 6 test files / 48 tests passed; build passed; responsive/a11y smoke passed at 390 / 768 / 1024 / 1440.
 
 ---
 
@@ -80,8 +95,8 @@ ADR-lite format. Newest first.
 | **ID** | D-026 |
 | **Date / phase** | 2026-07-10 / Phase 1.2 |
 | **Decision** | Phase 1.2 is **Independently verified**, **Product-owner accepted**, and **Closed** |
-| **Rationale** | QA approved QA range `605e8e7..f93653c`; Nicole manually verified packing reset and anchor consistency |
-| **Consequence** | Phase 1.3 application implementation authorized; blocker commits `e60a7b7`, `f93653c` on record |
+| **Rationale** | Independent QA approved Phase 1.2; Nicole manually verified packing reset and anchor consistency; evidence consolidated at `ecd6377` |
+| **Consequence** | Phase 1.3 application implementation authorized |
 | **Revisit if** | Regression found in accepted flows |
 
 **Evidence:** Working tree clean; typecheck passed; 6 test files / 48 tests passed; build passed; packing-reset and anchor-consistency reproduction passed.

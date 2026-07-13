@@ -8,20 +8,21 @@ TripCanvas turns scattered travel inspiration into **calm days you will actually
 
 ## Current status
 
-> This status table summarizes [PROJECT_CONTROL_PLANE.md](PROJECT_CONTROL_PLANE.md), which remains the canonical operational status source. (checkpoint `bec854c`)
+> This status table summarizes [PROJECT_CONTROL_PLANE.md](PROJECT_CONTROL_PLANE.md), which remains the canonical operational status source. (checkpoint `ecd6377`)
 
 | Item | Status |
 |---|---|
 | Phase 1 Trip Pulse | Implemented |
 | Phase 1.1 hardening | Implemented · Automatically verified |
-| Phase 1.2 QA QA + Nicole acceptance | Independently verified · Product-owner accepted · Closed |
+| Phase 1.2 independent QA + Nicole acceptance | Independently verified · Product-owner accepted · Closed |
 | Phase 1.3 Soft Coastal / Trip Pulse v2 | Independently verified — PO acceptance pending |
-| Phase 1.4 verification / acceptance / 2A authorization | Authorized — current gate phase |
-| Phase 2A / 2B / 2C journey data | Not started |
+| Phase 1.4 verification / acceptance / 2A authorization | Authorized — closure prep in progress |
+| Phase 2A / 2B / 2C journey data | Not started — **Phase 2A blocked** |
 | Phase 3 map-led Itinerary | Planned — not started |
 
 **Current branch:** `main`
-**Current authorization:** Phase 1.4 gate work only — no Phase 2A code until Nicole acceptance and explicit authorization.
+**GitHub:** https://github.com/Nicolercc/travel-agent
+**Current authorization:** Phase 1.4 gate work only — no Phase 2A code until Nicole acceptance, green CI, and explicit authorization.
 
 ---
 
@@ -48,7 +49,7 @@ TripCanvas turns scattered travel inspiration into **calm days you will actually
 | **Implementation** | PROJECT_CONTROL_PLANE · roadmap phase · relevant `specs/` · RELEASE_GATES |
 | **Design implementation** | SOFT_COASTAL_VISUAL_SYSTEM · relevant spec |
 | **reviewer review** | PROJECT_CONTROL_PLANE · relevant spec · DECISION_LOG · RELEASE_GATES |
-| **QA QA** | PROJECT_CONTROL_PLANE · relevant spec · RELEASE_GATES · **commit range in prompt** |
+| **QA** | PROJECT_CONTROL_PLANE · relevant spec · RELEASE_GATES · **commit SHA in prompt** |
 | **Trip facts** | source/SPAIN_2026_MASTER_TRIP_NOTE.md |
 
 **Orchestration:** [REVIEW_TEAM_OPERATING_MODEL.md](REVIEW_TEAM_OPERATING_MODEL.md)

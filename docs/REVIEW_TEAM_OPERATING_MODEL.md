@@ -176,7 +176,7 @@ Use [archive audit brief](archive/2026-07-product-audit/TEAM_AUDIT_BRIEF.md) out
 ## QA Verdict — [Phase]
 
 ### Commit range
-`[base]..[head]` (e.g. `85970c4..fad3a29`)
+`ecd6377` (single-commit baseline on `main`)
 
 ### Verdict
 **Approve** | **Request changes**
@@ -217,7 +217,7 @@ Use [archive audit brief](archive/2026-07-product-audit/TEAM_AUDIT_BRIEF.md) out
 | `docs/*` | Documentation passes (this branch) |
 | `main` | Released / accepted checkpoints |
 
-QA QA references **exact commit range** supplied in task prompt.
+QA references **exact commit SHA** supplied in task prompt.
 
 ---
 

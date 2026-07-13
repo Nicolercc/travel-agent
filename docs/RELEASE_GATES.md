@@ -51,11 +51,13 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Automation rule:** A local verification run is evidence, not durable automatic verification. For a phase to claim **Automatically verified**, the same required checks should pass in CI or another repeatable automated gate. If CI is unavailable, record the limitation explicitly in the phase verdict.
 
-**Phase 1.1:** ✅ Automatically verified (31 tests at `fad3a29`)
+**Phase 1.1:** ✅ Automatically verified — evidence consolidated at `ecd6377`
 
-**Phase 1.2:** ✅ Automatically verified (48 tests at `f93653c`); blocker remediation commits `e60a7b7`, `f93653c`
+**Phase 1.2:** ✅ Automatically verified (48 tests) — evidence consolidated at `ecd6377`
 
-**Phase 1.3:** ✅ Locally verified at `bec854c` (48 tests, typecheck, build, `git diff --check`) — CI-backed automation not yet recorded (D-030)
+**Phase 1.3:** ✅ Locally verified at `ecd6377` (48 tests, typecheck, build, `git diff --check`)
+
+**Phase 1.4 / CI:** ⏳ GitHub Actions workflow committed at `ecd6377` — **CI remote result pending manual confirmation** (D-030)
 
 ---
 
@@ -70,7 +72,7 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Phase 1.1:** Journey Ribbon contract ✅; reduced motion on scroll ✅; touch targets and icon labels deferred to Phase 1.3 P2 backlog
 
-**Phase 1.3:** ✅ QA closure pass approved on clean range `98b15e4..bec854c`; mobile tab order and Trip Mode 44px targets verified
+**Phase 1.3:** ✅ QA closure pass approved; evidence consolidated at `ecd6377`; mobile tab order and Trip Mode 44px targets verified
 
 ---
 
@@ -83,9 +85,9 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 | **Blocks** | Phase 1.2 product-owner acceptance |
 | **Recorded in** | QA verdict template in [REVIEW_TEAM_OPERATING_MODEL.md](REVIEW_TEAM_OPERATING_MODEL.md) |
 
-**Phase 1.2:** ✅ Approved — review range `605e8e7..f93653c`; working tree clean; packing-reset and anchor-consistency reproduction passed
+**Phase 1.2:** ✅ Approved — evidence consolidated at `ecd6377`; packing-reset and anchor-consistency reproduction passed
 
-**Phase 1.3:** ✅ Approved — review range `98b15e4..bec854c`; clean tree; typecheck/test/build pass; responsive and a11y closure verified
+**Phase 1.3:** ✅ Approved — evidence consolidated at `ecd6377`; typecheck/test/build pass; responsive and a11y closure verified
 
 ---
 
@@ -102,7 +104,7 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Phase 1.2:** ✅ Accepted — Nicole verified packing reset and anchor consistency manually
 
-**Phase 1.3:** ⏳ Not accepted — Nicole walkthrough pending after QA approve
+**Phase 1.3:** ⏳ Not accepted — Nicole walkthrough pending
 
 ---
 
@@ -159,10 +161,10 @@ Nicole waives with written reason → ADR in [DECISION_LOG.md](DECISION_LOG.md).
 | **1.1 → 1.2 (acceptance)** | Engineering ✅; Gates 5–6 ✅ |
 | **1.2 → 1.3 (Soft Coastal visual)** | Phase 1.2 product-owner accepted ✅ |
 | **1.3 → 1.4 (acceptance gate)** | Phase 1.3 implementation independently verified ✅ |
-| **1.4 → 2A → 2B → 2C (data foundation)** | Phase 1.3 product-owner accepted; Phase 2A explicitly authorized |
+| **1.4 → 2A → 2B → 2C (data foundation)** | Phase 1.3 product-owner accepted; GitHub CI green; Phase 2A explicitly authorized |
 | **2C → 3 (map-led Itinerary)** | Phases 2A, 2B, 2C complete; D-029 spike findings reviewed if performed |
 | **→ Launch (Phase 9)** | All eight gates |
 
 **Approved sequence after acceptance:** Phase 1.3 → Phase 1.4 → Phase 2A → Phase 2B → Phase 2C → Phase 3
 
-**Phase 1.3 P2 backlog** (Phase 1.2 carry-forward): **closed in implementation** — see [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) closure table. Final QA QA approved; Nicole acceptance still required.
+**Phase 1.3 P2 backlog** (Phase 1.2 carry-forward): **closed in implementation** — see [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) closure table. QA approved; Nicole acceptance still required.
