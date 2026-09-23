@@ -44,7 +44,7 @@ export default function Inbox() {
     <div className="space-y-8 page-enter">
       <header className="flex flex-col gap-2">
         <h1 className="text-4xl md:text-5xl font-serif text-primary tracking-tight">Inbox</h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-lg text-muted-foreground" role="status">
           {inboxPlaces.length} unsorted places
         </p>
       </header>
@@ -56,6 +56,7 @@ export default function Inbox() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input 
+              aria-label="Search places or areas"
               placeholder="Search places or areas..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -63,7 +64,7 @@ export default function Inbox() {
             />
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full sm:w-[200px] bg-background">
+            <SelectTrigger aria-label="Filter by category" className="w-full sm:w-[200px] bg-background">
               <SelectValue placeholder="All categories" />
             </SelectTrigger>
             <SelectContent>
@@ -110,7 +111,7 @@ export default function Inbox() {
                         movePlace(place.id, val, daySectionForInboxAssignment(place))
                       }
                     >
-                      <SelectTrigger className="w-[180px] h-8 text-xs bg-background">
+                      <SelectTrigger aria-label={`Assign ${place.name} to a day`} className="w-[180px] h-8 text-xs bg-background">
                         <SelectValue placeholder="Assign to day..." />
                       </SelectTrigger>
                       <SelectContent>

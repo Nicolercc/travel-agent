@@ -26,7 +26,7 @@ export function Navigation() {
         const active = isActive(item.href);
         const Icon = item.icon;
         return (
-          <Link key={item.href} href={item.href}>
+          <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined}>
             <span
               className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors cursor-pointer text-sm ${
                 active

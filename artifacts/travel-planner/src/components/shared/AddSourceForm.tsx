@@ -52,6 +52,7 @@ export function AddSourceForm() {
   const [area, setArea] = useState("");
   const [notes, setNotes] = useState("");
   const [category, setCategory] = useState<ItemCategory>("experience");
+  const [lastSavedName, setLastSavedName] = useState<string | null>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -77,6 +78,7 @@ export function AddSourceForm() {
     };
 
     addPlace(newPlace);
+    setLastSavedName(placeName);
     setUrl("");
     setName("");
     setCity("Barcelona");
@@ -96,6 +98,7 @@ export function AddSourceForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Input
+              aria-label="Source link"
               placeholder="Paste TikTok, Instagram, Google Maps, or article link..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -104,18 +107,21 @@ export function AddSourceForm() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <Input
+              aria-label="Place name"
               placeholder="Place name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="bg-background"
             />
             <Input
+              aria-label="City"
               placeholder="City"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               className="bg-background"
             />
             <Input
+              aria-label="Area or neighborhood"
               placeholder="Area or neighborhood"
               value={area}
               onChange={(e) => setArea(e.target.value)}
@@ -124,6 +130,7 @@ export function AddSourceForm() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-4">
             <Textarea
+              aria-label="Notes"
               placeholder="Why is this worth saving?"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -131,7 +138,7 @@ export function AddSourceForm() {
             />
             <div className="space-y-4 flex flex-col justify-between">
               <Select value={category} onValueChange={(val: ItemCategory) => setCategory(val)}>
-                <SelectTrigger className="bg-background">
+                <SelectTrigger aria-label="Category" className="bg-background">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -147,6 +154,9 @@ export function AddSourceForm() {
               </Button>
             </div>
           </div>
+          <p role="status" className="sr-only">
+            {lastSavedName ? `Saved ${lastSavedName} to Inbox.` : ""}
+          </p>
         </form>
       </CardContent>
     </Card>

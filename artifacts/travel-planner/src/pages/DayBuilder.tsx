@@ -9,6 +9,66 @@ import { daySectionForInboxAssignment } from "@/lib/assignment";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DaySection, SavedPlace } from "@/types";
 
+// Module scope: an inline component would remount on every state change and drop keyboard focus.
+function SectionCard({
+  place,
+  section,
+  onSectionChange,
+}: {
+  place: SavedPlace;
+  section: DaySection;
+  onSectionChange: (placeId: string, value: DaySection | "inbox") => void;
+}) {
+  return (
+    <Card className="mb-3 hover-elevate transition-all border-border bg-card">
+      <CardContent className="p-4">
+        <div className="space-y-3">
+          <div className="flex justify-between items-start gap-4">
+            <div>
+              <h4 className="font-serif text-lg font-bold">{place.name}</h4>
+              <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                <MapPin className="w-3 h-3" /> {place.area}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <CategoryPill category={place.category} />
+              <StatusPill status={place.status} />
+            </div>
+          </div>
+
+          {place.notes && (
+            <p className="text-sm leading-relaxed text-foreground/80">{place.notes}</p>
+          )}
+
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/50">
+            <Select value={section} onValueChange={(val) => onSectionChange(place.id, val as DaySection | "inbox")}>
+              <SelectTrigger aria-label={`Section for ${place.name}`} className="w-[140px] h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="anchor">Anchor</SelectItem>
+                <SelectItem value="booked">Booked</SelectItem>
+                <SelectItem value="planned">Planned</SelectItem>
+                <SelectItem value="optional">Optional</SelectItem>
+                <SelectItem value="backup">Backup</SelectItem>
+                <SelectItem value="do-not-cram">Do Not Cram</SelectItem>
+                <SelectItem value="inbox">Move to Inbox</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex gap-2">
+              {place.booking_link && (
+                <Button variant="outline" size="sm" className="h-8 text-xs" asChild>
+                  <a href={place.booking_link} target="_blank" rel="noreferrer">Tickets <ExternalLink className="w-3 h-3 ml-1"/></a>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function DayBuilder() {
   const { dayId } = useParams();
   const { days, places, movePlace } = useTrip();
@@ -56,55 +116,6 @@ export default function DayBuilder() {
 
     movePlace(placeId, day.id, value);
   };
-
-  const SectionCard = ({ place, section }: { place: SavedPlace, section: DaySection }) => (
-    <Card className="mb-3 hover-elevate transition-all border-border bg-card">
-      <CardContent className="p-4">
-        <div className="space-y-3">
-          <div className="flex justify-between items-start gap-4">
-            <div>
-              <h4 className="font-serif text-lg font-bold">{place.name}</h4>
-              <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                <MapPin className="w-3 h-3" /> {place.area}
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <CategoryPill category={place.category} />
-              <StatusPill status={place.status} />
-            </div>
-          </div>
-          
-          {place.notes && (
-            <p className="text-sm leading-relaxed text-foreground/80">{place.notes}</p>
-          )}
-
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/50">
-            <Select value={section} onValueChange={(val) => handleSectionChange(place.id, val as DaySection | "inbox")}>
-              <SelectTrigger className="w-[140px] h-8 text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="anchor">Anchor</SelectItem>
-                <SelectItem value="booked">Booked</SelectItem>
-                <SelectItem value="planned">Planned</SelectItem>
-                <SelectItem value="optional">Optional</SelectItem>
-                <SelectItem value="backup">Backup</SelectItem>
-                <SelectItem value="do-not-cram">Do Not Cram</SelectItem>
-                <SelectItem value="inbox">Move to Inbox</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="flex gap-2">
-              {place.booking_link && (
-                <Button variant="outline" size="sm" className="h-8 text-xs" asChild>
-                  <a href={place.booking_link} target="_blank" rel="noreferrer">Tickets <ExternalLink className="w-3 h-3 ml-1"/></a>
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
 
   return (
     <div className="space-y-8 pb-20 page-enter">
@@ -173,7 +184,7 @@ export default function DayBuilder() {
               <span className="w-2 h-2 bg-primary rounded-full"></span> Anchor
             </h3>
             {sections.anchor.length === 0 && <p className="text-muted-foreground text-sm italic">No anchor set for this day.</p>}
-            {sections.anchor.map(p => <SectionCard key={p.id} place={p} section="anchor" />)}
+            {sections.anchor.map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="anchor" />)}
           </section>
 
           {(sections.booked.length > 0 || sections.planned.length > 0) && (
@@ -181,29 +192,29 @@ export default function DayBuilder() {
               <h3 className="text-xl font-serif font-bold text-primary mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-500 rounded-full"></span> The Core Plan
               </h3>
-              {sections.booked.map(p => <SectionCard key={p.id} place={p} section="booked" />)}
-              {sections.planned.map(p => <SectionCard key={p.id} place={p} section="planned" />)}
+              {sections.booked.map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="booked" />)}
+              {sections.planned.map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="planned" />)}
             </section>
           )}
 
           {sections.optional.length > 0 && (
             <section>
               <h3 className="text-xl font-serif font-bold text-primary mb-4 opacity-70">Nearby / Optional</h3>
-              {sections.optional.map(p => <SectionCard key={p.id} place={p} section="optional" />)}
+              {sections.optional.map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="optional" />)}
             </section>
           )}
 
           {sections.backup.length > 0 && (
             <section>
               <h3 className="text-lg font-serif font-bold text-muted-foreground mb-3 opacity-60">Backup</h3>
-              {sections.backup.map(p => <SectionCard key={p.id} place={p} section="backup" />)}
+              {sections.backup.map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="backup" />)}
             </section>
           )}
 
           {sections["do-not-cram"].length > 0 && (
             <section>
               <h3 className="text-lg font-serif font-bold text-muted-foreground mb-3 opacity-60">Do Not Cram</h3>
-              {sections["do-not-cram"].map(p => <SectionCard key={p.id} place={p} section="do-not-cram" />)}
+              {sections["do-not-cram"].map(p => <SectionCard key={p.id} place={p} onSectionChange={handleSectionChange} section="do-not-cram" />)}
             </section>
           )}
         </div>

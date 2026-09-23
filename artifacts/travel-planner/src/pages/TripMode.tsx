@@ -4,6 +4,133 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Map, CheckCircle2, Ticket, Clock, Star, Shield, XCircle, Shirt } from "lucide-react";
 import { formatDateOnly } from "@/lib/dates";
 import { SavedPlace } from "@/types";
+import type { ItemActionState } from "@/context/TripContext";
+
+// Module scope: an inline component would remount on every toggle and drop keyboard focus.
+function TripItem({
+  place,
+  state,
+  onToggleDone,
+  onToggleSkipped,
+  isAnchor = false,
+  compact = false,
+}: {
+  place: SavedPlace;
+  state: ItemActionState | undefined;
+  onToggleDone: (placeId: string) => void;
+  onToggleSkipped: (placeId: string) => void;
+  isAnchor?: boolean;
+  compact?: boolean;
+}) {
+  const isDone = state === 'done';
+  const isSkip = state === 'skipped';
+
+  if (isAnchor) {
+    return (
+      <div className={`p-6 rounded-2xl transition-all duration-300 ${isDone ? 'opacity-60' : ''} bg-primary text-primary-foreground`}>
+        <div className="flex items-start gap-4">
+          <button
+            type="button"
+            onClick={() => onToggleDone(place.id)}
+            className={`shrink-0 h-11 w-11 min-h-[44px] min-w-[44px] rounded-full border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-primary-foreground border-primary-foreground' : 'border-primary-foreground/40 hover:border-primary-foreground'}`}
+            data-testid={`complete-${place.id}`}
+            aria-label={
+              isDone
+                ? `Mark ${place.name} incomplete`
+                : `Mark ${place.name} complete`
+            }
+          >
+            {isDone && <CheckCircle2 className="w-4 h-4 text-primary" />}
+          </button>
+          <div className="flex-1">
+            <h3 className={`font-serif font-bold text-2xl leading-tight mb-1 ${isDone ? 'line-through opacity-70' : ''}`}>{place.name}</h3>
+            <p className="text-sm text-primary-foreground/70">{place.area}{place.time ? ` · ${place.time}` : ''}</p>
+            {place.notes && (
+              <p className="text-sm text-primary-foreground/85 mt-3 leading-relaxed">{place.notes}</p>
+            )}
+            <div className="flex flex-wrap gap-2 mt-4">
+              {place.google_maps_url && (
+                <Button size="sm" variant="secondary" className="h-8 rounded-full gap-1.5 text-xs" asChild>
+                  <a href={place.google_maps_url} target="_blank" rel="noreferrer"><Map className="w-3 h-3" /> Map</a>
+                </Button>
+              )}
+              {place.booking_link && (
+                <Button size="sm" className="h-8 rounded-full gap-1.5 text-xs bg-primary-foreground text-primary hover:bg-primary-foreground/90" asChild>
+                  <a href={place.booking_link} target="_blank" rel="noreferrer"><Ticket className="w-3 h-3" /> Open booking</a>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (compact) {
+    return (
+      <div className={`px-5 py-4 transition-all duration-200 ${isDone || isSkip ? 'opacity-40' : ''} border-b border-border/50 last:border-0`}>
+        <div className="flex items-start gap-3">
+          <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 mt-2" />
+          <div className="flex-1 min-w-0">
+            <p className={`text-sm font-medium text-foreground leading-snug ${isDone || isSkip ? 'line-through' : ''}`}>{place.name}</p>
+            {place.notes && <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{place.notes}</p>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`px-5 py-5 transition-all duration-200 ${isDone || isSkip ? 'opacity-50' : ''} border-b border-border/50 last:border-0`}>
+      <div className="flex items-start gap-4">
+        <button
+          type="button"
+          onClick={() => onToggleDone(place.id)}
+          className={`shrink-0 h-11 w-11 min-h-[44px] min-w-[44px] rounded-full border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-sc-status-ready border-sc-status-ready' : 'border-muted-foreground/30 hover:border-foreground/50'}`}
+          data-testid={`complete-${place.id}`}
+          aria-label={
+            isDone
+              ? `Mark ${place.name} incomplete`
+              : `Mark ${place.name} complete`
+          }
+        >
+          {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+        </button>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-2">
+            <h4 className={`font-serif font-bold text-lg leading-tight ${isDone ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{place.name}</h4>
+            {place.time && <span className="text-xs text-muted-foreground shrink-0">{place.time}</span>}
+          </div>
+          <p className="text-xs text-muted-foreground mt-0.5">{place.area}</p>
+          {place.notes && (
+            <p className="text-sm text-foreground/75 mt-2 leading-relaxed">{place.notes}</p>
+          )}
+          <div className="flex flex-wrap gap-2 mt-3">
+            {place.google_maps_url && (
+              <Button size="sm" variant="outline" className="h-7 rounded-full gap-1.5 text-xs" asChild>
+                <a href={place.google_maps_url} target="_blank" rel="noreferrer"><Map className="w-3 h-3" /> Map</a>
+              </Button>
+            )}
+            {place.booking_link && (
+              <Button size="sm" variant="default" className="h-7 rounded-full gap-1.5 text-xs" asChild>
+                <a href={place.booking_link} target="_blank" rel="noreferrer"><Ticket className="w-3 h-3" /> Tickets</a>
+              </Button>
+            )}
+            <button
+              type="button"
+              onClick={() => onToggleSkipped(place.id)}
+              className={`inline-flex min-h-[44px] items-center text-xs px-3 py-2 rounded-full border transition-colors focus-ring ${isSkip ? 'bg-secondary text-foreground border-border' : 'text-muted-foreground border-transparent hover:border-border'}`}
+              data-testid={`skip-${place.id}`}
+              aria-label={isSkip ? `Unskip ${place.name}` : `Skip ${place.name}`}
+            >
+              {isSkip ? 'Unskip' : 'Skip'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function TripMode() {
   const { dayId } = useParams();
@@ -23,117 +150,12 @@ export default function TripMode() {
   const optional = dayPlaces.filter(p => p.day_section === 'optional');
   const backups = dayPlaces.filter(p => p.day_section === 'backup');
   const doNotCram = dayPlaces.filter(p => p.day_section === 'do-not-cram');
-
-  const TripItem = ({ place, isAnchor = false, compact = false }: { place: SavedPlace, isAnchor?: boolean, compact?: boolean }) => {
-    const isDone = itemStates[place.id] === 'done';
-    const isSkip = itemStates[place.id] === 'skipped';
-
-    if (isAnchor) {
-      return (
-        <div className={`p-6 rounded-2xl transition-all duration-300 ${isDone ? 'opacity-60' : ''} bg-primary text-primary-foreground`}>
-          <div className="flex items-start gap-4">
-            <button
-              type="button"
-              onClick={() => toggleItemDone(place.id)}
-              className={`shrink-0 h-11 w-11 min-h-[44px] min-w-[44px] rounded-full border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-primary-foreground border-primary-foreground' : 'border-primary-foreground/40 hover:border-primary-foreground'}`}
-              data-testid={`complete-${place.id}`}
-              aria-label={
-                isDone
-                  ? `Mark ${place.name} incomplete`
-                  : `Mark ${place.name} complete`
-              }
-            >
-              {isDone && <CheckCircle2 className="w-4 h-4 text-primary" />}
-            </button>
-            <div className="flex-1">
-              <h3 className={`font-serif font-bold text-2xl leading-tight mb-1 ${isDone ? 'line-through opacity-70' : ''}`}>{place.name}</h3>
-              <p className="text-sm text-primary-foreground/70">{place.area}{place.time ? ` · ${place.time}` : ''}</p>
-              {place.notes && (
-                <p className="text-sm text-primary-foreground/85 mt-3 leading-relaxed">{place.notes}</p>
-              )}
-              <div className="flex flex-wrap gap-2 mt-4">
-                {place.google_maps_url && (
-                  <Button size="sm" variant="secondary" className="h-8 rounded-full gap-1.5 text-xs" asChild>
-                    <a href={place.google_maps_url} target="_blank" rel="noreferrer"><Map className="w-3 h-3" /> Map</a>
-                  </Button>
-                )}
-                {place.booking_link && (
-                  <Button size="sm" className="h-8 rounded-full gap-1.5 text-xs bg-primary-foreground text-primary hover:bg-primary-foreground/90" asChild>
-                    <a href={place.booking_link} target="_blank" rel="noreferrer"><Ticket className="w-3 h-3" /> Open booking</a>
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (compact) {
-      return (
-        <div className={`px-5 py-4 transition-all duration-200 ${isDone || isSkip ? 'opacity-40' : ''} border-b border-border/50 last:border-0`}>
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 mt-2" />
-            <div className="flex-1 min-w-0">
-              <p className={`text-sm font-medium text-foreground leading-snug ${isDone || isSkip ? 'line-through' : ''}`}>{place.name}</p>
-              {place.notes && <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{place.notes}</p>}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={`px-5 py-5 transition-all duration-200 ${isDone || isSkip ? 'opacity-50' : ''} border-b border-border/50 last:border-0`}>
-        <div className="flex items-start gap-4">
-          <button
-            type="button"
-            onClick={() => toggleItemDone(place.id)}
-            className={`shrink-0 h-11 w-11 min-h-[44px] min-w-[44px] rounded-full border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-sc-status-ready border-sc-status-ready' : 'border-muted-foreground/30 hover:border-foreground/50'}`}
-            data-testid={`complete-${place.id}`}
-            aria-label={
-              isDone
-                ? `Mark ${place.name} incomplete`
-                : `Mark ${place.name} complete`
-            }
-          >
-            {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
-          </button>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-baseline justify-between gap-2">
-              <h4 className={`font-serif font-bold text-lg leading-tight ${isDone ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{place.name}</h4>
-              {place.time && <span className="text-xs text-muted-foreground shrink-0">{place.time}</span>}
-            </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{place.area}</p>
-            {place.notes && (
-              <p className="text-sm text-foreground/75 mt-2 leading-relaxed">{place.notes}</p>
-            )}
-            <div className="flex flex-wrap gap-2 mt-3">
-              {place.google_maps_url && (
-                <Button size="sm" variant="outline" className="h-7 rounded-full gap-1.5 text-xs" asChild>
-                  <a href={place.google_maps_url} target="_blank" rel="noreferrer"><Map className="w-3 h-3" /> Map</a>
-                </Button>
-              )}
-              {place.booking_link && (
-                <Button size="sm" variant="default" className="h-7 rounded-full gap-1.5 text-xs" asChild>
-                  <a href={place.booking_link} target="_blank" rel="noreferrer"><Ticket className="w-3 h-3" /> Tickets</a>
-                </Button>
-              )}
-              <button
-                type="button"
-                onClick={() => toggleItemSkipped(place.id)}
-                className={`inline-flex min-h-[44px] items-center text-xs px-3 py-2 rounded-full border transition-colors focus-ring ${isSkip ? 'bg-secondary text-foreground border-border' : 'text-muted-foreground border-transparent hover:border-border'}`}
-                data-testid={`skip-${place.id}`}
-                aria-label={isSkip ? `Unskip ${place.name}` : `Skip ${place.name}`}
-              >
-                {isSkip ? 'Unskip' : 'Skip'}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const itemProps = (place: SavedPlace) => ({
+    place,
+    state: itemStates[place.id],
+    onToggleDone: toggleItemDone,
+    onToggleSkipped: toggleItemSkipped,
+  });
 
   return (
     <div className="min-h-[100dvh] bg-background page-enter pb-24">
@@ -156,7 +178,7 @@ export default function TripMode() {
         <div className="w-9" />
       </div>
 
-      <div className="max-w-lg mx-auto px-4 pt-10 space-y-10">
+      <main className="max-w-lg mx-auto px-4 pt-10 space-y-10">
         {/* Header */}
         <header className="text-center space-y-3">
           <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
@@ -189,7 +211,7 @@ export default function TripMode() {
               <Star className="w-3.5 h-3.5 text-primary" />
               <span className="text-xs font-bold uppercase tracking-widest text-primary">Anchor</span>
             </div>
-            <TripItem place={anchor} isAnchor />
+            <TripItem {...itemProps(anchor)} isAnchor />
           </section>
         )}
 
@@ -201,8 +223,8 @@ export default function TripMode() {
               <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">The Plan</span>
             </div>
             <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-sm">
-              {booked.map(p => <TripItem key={p.id} place={p} />)}
-              {planned.map(p => <TripItem key={p.id} place={p} />)}
+              {booked.map(p => <TripItem key={p.id} {...itemProps(p)} />)}
+              {planned.map(p => <TripItem key={p.id} {...itemProps(p)} />)}
             </div>
           </section>
         )}
@@ -215,7 +237,7 @@ export default function TripMode() {
               <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Optional Nearby</span>
             </div>
             <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-sm">
-              {optional.map(p => <TripItem key={p.id} place={p} />)}
+              {optional.map(p => <TripItem key={p.id} {...itemProps(p)} />)}
             </div>
           </section>
         )}
@@ -228,7 +250,7 @@ export default function TripMode() {
               <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Backup</span>
             </div>
             <div className="bg-secondary/20 rounded-xl overflow-hidden border border-border/50">
-              {backups.map(p => <TripItem key={p.id} place={p} compact />)}
+              {backups.map(p => <TripItem key={p.id} {...itemProps(p)} compact />)}
             </div>
           </section>
         )}
@@ -250,7 +272,7 @@ export default function TripMode() {
             </div>
           </section>
         )}
-      </div>
+      </main>
     </div>
   );
 }

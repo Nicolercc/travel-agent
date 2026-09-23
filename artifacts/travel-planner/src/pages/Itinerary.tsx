@@ -67,11 +67,13 @@ export default function Itinerary() {
                           {day.isOverloaded && (
                             <span title="Overloaded day" className="text-sc-status-progress">
                               <Zap className="w-3.5 h-3.5" />
+                              <span className="sr-only">Overloaded day</span>
                             </span>
                           )}
                           {!day.hasAnchor && (
                             <span title="Missing anchor" className="text-sc-status-attention-fg">
                               <AlertCircle className="w-3.5 h-3.5" />
+                              <span className="sr-only">Missing anchor</span>
                             </span>
                           )}
                           <span className="text-xs text-muted-foreground">{day.count} places</span>
