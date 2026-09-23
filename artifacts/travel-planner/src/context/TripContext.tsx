@@ -3,7 +3,7 @@ import { Trip, TripDay, SavedPlace, DaySection } from '../types';
 import { mockTrip, mockDays, mockPlaces } from '../data/mockData';
 import { clearPackingStorage } from '../lib/packing-storage';
 
-type ItemActionState = 'done' | 'skipped';
+export type ItemActionState = 'done' | 'skipped';
 
 interface TripContextType {
   trip: Trip;
@@ -19,7 +19,8 @@ interface TripContextType {
 }
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
-const PLACES_STORAGE_KEY = 'tripcanvas:places:v1';
+// v2: seed places re-aligned with the master trip note; v1 data references removed place ids.
+const PLACES_STORAGE_KEY = 'tripcanvas:places:v2';
 const ITEM_STATES_STORAGE_KEY = 'tripcanvas:item-states:v1';
 
 function readStoredState<T>(key: string, fallback: T): T {

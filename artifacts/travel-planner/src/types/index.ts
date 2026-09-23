@@ -13,6 +13,8 @@ export type TripDayKind =
   | 'departure';
 export type LogisticsType = 'flight' | 'hotel' | 'car_rental' | 'ticket' | 'reservation' | 'emergency';
 
+export * from './journey';
+
 export interface SavedPlace {
   id: string;
   name: string;

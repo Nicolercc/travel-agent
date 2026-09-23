@@ -2,6 +2,18 @@ import { Trip, SavedPlace, TripDay, LogisticsItem } from '../types';
 
 export const mockDays: TripDay[] = [
   {
+    id: "day-0",
+    date: "2026-07-28",
+    city: "New York",
+    area_context: "JFK → in-flight",
+    title: "JFK Departure",
+    day_kind: "departure",
+    day_vibe: "Controlled and calm — transition into travel mode",
+    anchor_place_id: null,
+    outfit_note: "Comfortable layers for plane AC and Barcelona morning heat",
+    notes: "Target JFK arrival 3:45–4:15 PM. DL128 departs 6:55 PM. Medications and one fresh outfit in personal item."
+  },
+  {
     id: "day-1",
     date: "2026-07-29",
     city: "Menorca",
@@ -30,12 +42,12 @@ export const mockDays: TripDay[] = [
     date: "2026-07-31",
     city: "Menorca",
     area_context: "Cala en Porter",
-    title: "Beach Day / Cova d'en Xoroi",
+    title: "Binibeca, Cales Coves, Final Swim, Packing",
     day_kind: "experience",
-    day_vibe: "Beach morning, cave club at sunset",
-    anchor_place_id: "place-cova",
-    outfit_note: "Teal two-piece for the club. Bring a light jacket for evening.",
-    notes: "Book Cova d'en Xoroi sunset session in advance. Worth it."
+    day_vibe: "Whitewashed architecture, final soft coastal day, calm departure prep",
+    anchor_place_id: "place-binibeca",
+    outfit_note: "Swimwear and a light cover-up. Pack with intention tonight.",
+    notes: "Resolve Menorca car return before sleeping. Binibeca Vell and a final swim — not Cova d'en Xoroi."
   },
   {
     id: "day-4",
@@ -59,7 +71,7 @@ export const mockDays: TripDay[] = [
     day_vibe: "Slow morning, drive south, arrive rested",
     anchor_place_id: null,
     outfit_note: "Travel comfortable, fresh change for Barcelona arrival",
-    notes: "Check in to InterContinental. Return car at airport. Walk El Born in the evening."
+    notes: "Slow morning in Tossa. La Roca Village is a must-do (2–4 hours). InterContinental check-in after 3 PM."
   },
   {
     id: "day-6",
@@ -83,7 +95,7 @@ export const mockDays: TripDay[] = [
     day_vibe: "Vintage / Gaudí / walking-heavy",
     anchor_place_id: "place-sagrada",
     outfit_note: "Comfortable shoes, breathable outfit, sunglasses.",
-    notes: "Mercat dels Encants first thing. Sagrada Família at 4:30 PM. El Born for dinner."
+    notes: "Bakery + curated vintage shops (Encants is closed Tuesdays). Sagrada Família target ~2:00 PM — not yet booked. Move to FrontAir hotel."
   },
   {
     id: "day-8",
@@ -95,7 +107,7 @@ export const mockDays: TripDay[] = [
     day_vibe: "Easy morning, pack smart, leave time for one last coffee",
     anchor_place_id: null,
     outfit_note: "Airport comfortable fit. Don't pack your good shoes last.",
-    notes: "Flight out. Leave hotel by 10 AM."
+    notes: "Wake 6:30–7:00 AM. Confirm FrontAir shuttle the night before. Target Terminal 1 by 7:45–8:00 AM. DL129 departs 10:55 AM."
   }
 ];
 
@@ -129,35 +141,53 @@ export const mockPlaces: SavedPlace[] = [
     day_section: "anchor"
   },
 
-  // Day 3 — Cova d'en Xoroi
+  // Day 1 — Cova strong-maybe (not day-3)
   {
     id: "place-cova",
     name: "Cova d'en Xoroi",
     city: "Menorca",
     area: "Cala en Porter",
     category: "nightlife",
-    priority: "must",
-    status: "booked",
-    notes: "Cliff-side cave bar. Book the sunset session. Absolutely unmissable.",
+    priority: "high",
+    status: "planned",
+    notes: "Sunset cave club — strong maybe for Jul 29 if energy allows. Not yet booked.",
     source_type: "tiktok",
     source_url: "https://tiktok.com/...",
     raw_notes: null,
     google_maps_url: "https://maps.google.com/?q=Cova+d%27en+Xoroi",
+    assigned_day_id: "day-1",
+    day_section: "optional",
+    booking_link: null
+  },
+
+  // Day 3 — Binibeca
+  {
+    id: "place-binibeca",
+    name: "Binibeca Vell",
+    city: "Menorca",
+    area: "Sant Lluís",
+    category: "experience",
+    priority: "must",
+    status: "planned",
+    notes: "Whitewashed fishing village. Allow 1–1.5 hours to wander.",
+    source_type: "instagram",
+    source_url: "https://instagram.com/...",
+    raw_notes: null,
+    google_maps_url: "https://maps.google.com/?q=Binibeca+Vell",
     assigned_day_id: "day-3",
-    day_section: "anchor",
-    booking_link: "https://covadenxoroi.com/tickets"
+    day_section: "anchor"
   },
 
   // Day 4 — Costa Brava Road Day
   {
     id: "place-rental-car",
-    name: "Rental Car Pickup",
-    city: "Costa Brava",
-    area: "Blanes",
+    name: "Drivalia Car Pickup",
+    city: "Barcelona",
+    area: "El Prat Airport",
     category: "transport",
     priority: "must",
     status: "booked",
-    notes: "Pick up at 9:00 AM. Confirmation in email.",
+    notes: "Pickup after FR6882 arrival. DoYouSpain DYS-208785865.",
     source_type: "manual",
     source_url: null,
     raw_notes: null,
@@ -165,7 +195,7 @@ export const mockPlaces: SavedPlace[] = [
     assigned_day_id: "day-4",
     day_section: "booked",
     time: "9:00 AM",
-    booking_link: "https://avis.es/..."
+    booking_link: "https://doyouspain.com/..."
   },
   {
     id: "place-marimurtra",
@@ -342,33 +372,33 @@ export const mockPlaces: SavedPlace[] = [
     area: "Eixample",
     category: "experience",
     priority: "must",
-    status: "booked",
-    notes: "Torre de la Pasión tickets booked for 4:30 PM. Arrive 15 minutes early.",
+    status: "planned",
+    notes: "HIGH PRIORITY — not booked. Target timed entry around 2:00 PM. Sell-out risk.",
     source_type: "manual",
     source_url: null,
     raw_notes: null,
     google_maps_url: "https://maps.google.com/?q=Sagrada+Familia",
     assigned_day_id: "day-7",
     day_section: "anchor",
-    time: "4:30 PM",
-    booking_link: "https://sagradafamilia.org/tickets"
+    time: "2:00 PM",
+    booking_link: null
   },
   {
-    id: "place-encants",
-    name: "Mercat dels Encants",
+    id: "place-vintage-bakery",
+    name: "Bakery + Curated Vintage Shops",
     city: "Barcelona",
-    area: "Glòries",
+    area: "El Born / Gothic",
     category: "shop",
-    priority: "must",
+    priority: "high",
     status: "planned",
-    notes: "Go early, bring cash, comfortable shoes. It's big. Vintage finds under a mirrored canopy.",
-    source_type: "tiktok",
-    source_url: "https://tiktok.com/...",
+    notes: "Replaces Mercat dels Encants (closed Tuesdays). Final shop list still being curated.",
+    source_type: "manual",
+    source_url: null,
     raw_notes: null,
-    google_maps_url: "https://maps.google.com/?q=Mercat+dels+Encants",
+    google_maps_url: null,
     assigned_day_id: "day-7",
     day_section: "planned",
-    time: "9:00 AM"
+    time: "Morning"
   },
   {
     id: "place-passeig",
@@ -459,7 +489,7 @@ export const mockPlaces: SavedPlace[] = [
     category: "viewpoint",
     priority: "low",
     status: "do-not-cram",
-    notes: "It's a hike. After Encants + Sagrada Família you may not have the legs.",
+    notes: "It's a hike. After Sagrada Família you may not have the legs.",
     source_type: "manual",
     source_url: null,
     raw_notes: null,
@@ -491,14 +521,16 @@ export const mockPlaces: SavedPlace[] = [
     city: "Near Barcelona",
     area: "La Roca del Vallès",
     category: "shop",
-    priority: "medium",
-    status: "optional",
-    notes: "Outlet village with Spanish and international brands. Only if time on the drive south.",
+    priority: "must",
+    status: "planned",
+    notes: "Must-do outlet shopping. Plan 2–4 hours; target arrival 3–5 PM.",
     source_type: "instagram",
     source_url: "https://instagram.com/...",
     raw_notes: null,
     google_maps_url: "https://maps.google.com/?q=La+Roca+Village",
-    assigned_day_id: null
+    assigned_day_id: "day-5",
+    day_section: "planned",
+    time: "3:00 PM"
   },
   {
     id: "place-parking-sotano",
@@ -626,95 +658,128 @@ export const mockPlaces: SavedPlace[] = [
 
 export const mockLogistics: LogisticsItem[] = [
   {
-    id: "log-1",
+    id: "log-dl128",
     type: "flight",
-    title: "Flight to Menorca",
+    title: "DL128 · JFK → Barcelona",
     date: "2026-07-28",
-    time: "8:45 AM",
-    address: "Barcelona El Prat → Menorca Airport",
-    confirmation: "VY2841",
-    booking_link: "https://vueling.com/...",
-    notes: "Check in online 24h before. 1 carry-on included."
+    time: "6:55 PM",
+    address: "JFK Terminal 4 → BCN Terminal 1",
+    confirmation: "DELTA-MAIN",
+    booking_link: "https://delta.com/...",
+    notes: "Arrives Jul 29 at 8:45 AM. Delta Main Basic."
   },
   {
-    id: "log-2",
+    id: "log-fr7509",
+    type: "flight",
+    title: "FR7509 · Barcelona → Menorca",
+    date: "2026-07-29",
+    time: "3:50 PM",
+    address: "BCN Terminal 2 → Mahón MAH",
+    confirmation: "W4LNUT",
+    booking_link: "https://ryanair.com/...",
+    notes: "Requires T1→T2 terminal transfer after DL128 arrival."
+  },
+  {
+    id: "log-menorca-stay",
     type: "hotel",
-    title: "Hotel Rural Morvedra Nou — Menorca",
-    date: "2026-07-28",
-    time: "2:00 PM check-in",
-    address: "Carretera Sant Tomàs, Menorca",
-    confirmation: "RES-94821",
-    booking_link: "https://morvedranou.com/...",
-    notes: "3 nights. Quiet finca outside Mahón. Pool on site."
+    title: "Cala en Porter — Scott Airbnb",
+    date: "2026-07-29",
+    time: "4:00 PM check-in",
+    address: "Carrer de la Mediterrània, Cala en Porter",
+    confirmation: "AIRBNB-SCOTT",
+    booking_link: null,
+    notes: "July 29–August 1. Check-out Aug 1 before 10:00 AM."
   },
   {
-    id: "log-3",
+    id: "log-menorca-car",
+    type: "car_rental",
+    title: "Menorca Rental — DoYouSpain",
+    date: "2026-07-29",
+    time: "5:00 PM pickup",
+    address: "Menorca Airport",
+    confirmation: "DYS-207641506",
+    booking_link: "https://doyouspain.com/...",
+    notes: "Autos Menorca NR. Voucher return Aug 1 8:00 AM conflicts with 7:50 AM flight — resolve before Jul 31."
+  },
+  {
+    id: "log-fr6882",
+    type: "flight",
+    title: "FR6882 · Menorca → Barcelona",
+    date: "2026-08-01",
+    time: "7:50 AM",
+    address: "Mahón MAH → BCN Terminal 2",
+    confirmation: "W4LNUT",
+    booking_link: "https://ryanair.com/...",
+    notes: null
+  },
+  {
+    id: "log-drivalia",
+    type: "car_rental",
+    title: "Drivalia — Barcelona / Costa Brava",
+    date: "2026-08-01",
+    time: "9:00 AM pickup",
+    address: "Barcelona El Prat",
+    confirmation: "DYS-208785865",
+    booking_link: "https://doyouspain.com/...",
+    notes: "DoYouSpain / Drivalia. Voucher return Aug 3 12:00 PM; target return before 9:00 AM Aug 3."
+  },
+  {
+    id: "log-reymar",
+    type: "hotel",
+    title: "Gran Hotel Reymar, Tossa de Mar",
+    date: "2026-08-01",
+    time: "2:00 PM check-in",
+    address: "Avinguda Mar Menuda s/n, Tossa de Mar",
+    confirmation: "REYMAR-CONF",
+    booking_link: null,
+    notes: "Aug 1–2. Checkout Aug 2 by 11:00 AM."
+  },
+  {
+    id: "log-intercontinental",
     type: "hotel",
     title: "InterContinental Barcelona",
     date: "2026-08-02",
     time: "3:00 PM check-in",
-    address: "Gran Via de les Corts Catalanes 707, Barcelona",
-    confirmation: "IHG-20384",
+    address: "Passeig de Picasso 34, Barcelona",
+    confirmation: "IHG-CONF",
     booking_link: "https://ihg.com/...",
-    notes: "4 nights. Breakfast included. Ask for high floor."
+    notes: "Aug 2–4. Room held during Montserrat day."
   },
   {
-    id: "log-4",
+    id: "log-frontair",
     type: "hotel",
-    title: "Airport Hotel — Pre-departure",
+    title: "Alexandre FrontAir Congress Hotel",
     date: "2026-08-04",
-    time: "Late check-in",
-    address: "Near El Prat Airport",
+    time: "Afternoon check-in",
+    address: "Carrer de les Alberedes 16, Sant Boi de Llobregat",
+    confirmation: "FRONTAIR-CONF",
+    booking_link: null,
+    notes: "Confirmed. Reserve exact airport shuttle departure the night before."
+  },
+  {
+    id: "log-shuttle",
+    type: "reservation",
+    title: "FrontAir Airport Shuttle",
+    date: "2026-08-05",
+    time: "TBC — confirm night before",
+    address: "FrontAir → BCN Terminal 1",
     confirmation: null,
     booking_link: null,
-    notes: "Still looking for options near the airport for the last night."
+    notes: "Confirm shuttle departure time with hotel on Aug 4 evening."
   },
   {
-    id: "log-5",
-    type: "car_rental",
-    title: "Car Rental Pickup — Blanes",
-    date: "2026-08-01",
-    time: "9:00 AM",
-    address: "Avis Blanes Station, Costa Brava",
-    confirmation: "AVIS-48821",
-    booking_link: "https://avis.es/...",
-    notes: "Compact car, GPS included. Full tank return required."
+    id: "log-dl129",
+    type: "flight",
+    title: "DL129 · Barcelona → JFK",
+    date: "2026-08-05",
+    time: "10:55 AM",
+    address: "BCN Terminal 1 → JFK",
+    confirmation: "DELTA-RETURN",
+    booking_link: "https://delta.com/...",
+    notes: "Leave hotel ~7:00 AM. Target Terminal 1 arrival 7:45–8:00 AM."
   },
   {
-    id: "log-6",
-    type: "car_rental",
-    title: "Car Rental Return — Barcelona Airport",
-    date: "2026-08-02",
-    time: "4:00 PM",
-    address: "Avis Barcelona El Prat",
-    confirmation: "AVIS-48821",
-    booking_link: "https://avis.es/...",
-    notes: "Return at T1 drop-off. Allow 20 min buffer."
-  },
-  {
-    id: "log-7",
-    type: "ticket",
-    title: "Sagrada Família — Torre de la Pasión",
-    date: "2026-08-04",
-    time: "4:30 PM",
-    address: "Carrer de Mallorca 401, Barcelona",
-    confirmation: "SF-29138",
-    booking_link: "https://sagradafamilia.org/tickets",
-    notes: "Arrive 15 min early. No bags larger than backpack."
-  },
-  {
-    id: "log-8",
-    type: "reservation",
-    title: "Cova d'en Xoroi — Sunset Session",
-    date: "2026-07-31",
-    time: "7:00 PM",
-    address: "Cala en Porter, Menorca",
-    confirmation: "CX-10284",
-    booking_link: "https://covadenxoroi.com/tickets",
-    notes: "Entry includes 1 drink. Sunset starts around 9 PM."
-  },
-  {
-    id: "log-9",
+    id: "log-emergency",
     type: "emergency",
     title: "Emergency Info",
     date: null,

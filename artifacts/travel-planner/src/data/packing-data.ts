@@ -75,9 +75,10 @@ export const PACKING_CATEGORIES: PackingCategory[] = [
 ];
 
 export const PACKING_OUTFIT_NOTES = [
+  { dayId: "day-0", label: "JFK Departure", outfit: "Comfortable layers for plane AC and Barcelona morning heat" },
   { dayId: "day-1", label: "Menorca Arrival", outfit: "Airport comfortable, easy layers" },
   { dayId: "day-2", label: "Menorca Coves", outfit: "Swimsuit, cover-up, sandals. Don't forget sunscreen." },
-  { dayId: "day-3", label: "Beach Day / Cova d'en Xoroi", outfit: "Teal two-piece for the cave club. Bring a light jacket for evening." },
+  { dayId: "day-3", label: "Binibeca + Final Swim", outfit: "Swimwear and a light cover-up. Pack with intention tonight." },
   { dayId: "day-4", label: "Costa Brava Road Day", outfit: "Linen pants, comfortable sandals, sunglasses. Avoid new shoes." },
   { dayId: "day-5", label: "Tossa → Barcelona", outfit: "Travel comfortable, fresh change for Barcelona arrival" },
   { dayId: "day-6", label: "Montserrat Day", outfit: "Walking shoes, layers — it gets cool up there. Comfortable pants." },

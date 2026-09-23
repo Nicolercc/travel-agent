@@ -55,7 +55,7 @@ describe("computeNextBestActions", () => {
 });
 
 describe("computeTripReadiness bookings dimension", () => {
-  it("does not report bookings secured when airport hotel is unresolved", () => {
+  it("surfaces needs-attention when departure shuttle is unresolved", () => {
     const readiness = computeTripReadiness(
       mockDays,
       mockPlaces,

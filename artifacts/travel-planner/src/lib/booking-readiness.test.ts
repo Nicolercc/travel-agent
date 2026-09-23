@@ -7,17 +7,17 @@ import {
 } from "./booking-readiness";
 
 describe("computeBookingReadiness", () => {
-  it("treats all relevant bookings as secured when confirmations or links exist", () => {
+  it("treats secured logistics as resolved except explicit gaps", () => {
     const secured = mockLogistics.filter((item) => item.type !== "emergency");
     const result = computeBookingReadiness([], secured);
     expect(countUnresolvedBookings(result)).toBe(1);
-    expect(result.unresolvedLogistics[0]?.title).toContain("Airport Hotel");
+    expect(result.unresolvedLogistics[0]?.title).toContain("Shuttle");
   });
 
-  it("flags airport hotel missing confirmation and booking link", () => {
-    const airportHotel = mockLogistics.find((item) => item.id === "log-4");
-    expect(airportHotel).toBeDefined();
-    expect(isLogisticsItemSecured(airportHotel!)).toBe(false);
+  it("flags FrontAir shuttle missing confirmation", () => {
+    const shuttle = mockLogistics.find((item) => item.id === "log-shuttle");
+    expect(shuttle).toBeDefined();
+    expect(isLogisticsItemSecured(shuttle!)).toBe(false);
   });
 
   it("flags saved places that are booked without links", () => {
@@ -39,8 +39,8 @@ describe("computeBookingReadiness", () => {
 
   it("handles mixed secured and unresolved logistics", () => {
     const mixed = [
-      mockLogistics.find((item) => item.id === "log-1")!,
-      mockLogistics.find((item) => item.id === "log-4")!,
+      mockLogistics.find((item) => item.id === "log-dl128")!,
+      mockLogistics.find((item) => item.id === "log-shuttle")!,
     ];
     const result = computeBookingReadiness([], mixed);
     expect(result.securedCount).toBe(1);
