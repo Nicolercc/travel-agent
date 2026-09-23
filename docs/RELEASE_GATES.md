@@ -57,7 +57,7 @@ Status: ✅ Pass · ⏳ Pending · ❌ Fail · N/A · Waived (ADR required)
 
 **Phase 1.3:** ✅ Automatically verified (CI-backed) — `ecd6377` / `6096a81`; 48 tests, typecheck, build, `git diff --check`
 
-**Phase 1.4 / CI:** ✅ GitHub Actions green — [run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270) (`ecd6377`), [run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442) (`6096a81`) (D-030)
+**Phase 1.4 / CI:** ✅ Closed — Phase 2A authorized (D-034); GitHub Actions green — [run #29206845270](https://github.com/Nicolercc/travel-agent/actions/runs/29206845270) (`ecd6377`), [run #29219042442](https://github.com/Nicolercc/travel-agent/actions/runs/29219042442) (`6096a81`) (D-030)
 
 ---
 

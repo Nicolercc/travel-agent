@@ -3,7 +3,7 @@
 **Last updated:** 2026-07-12
 **Application baseline:** `ecd6377` — Initial TripCanvas baseline on `main`
 **GitHub remote:** https://github.com/Nicolercc/travel-agent
-**Documentation baseline:** Phase 1.4 gate closure prep
+**Documentation baseline:** Phase 2A authorized
 
 ---
 
@@ -26,16 +26,16 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 | Phase 1.1 truthfulness & hardening | **Implemented** · **Automatically verified** (consolidated at `ecd6377`) |
 | Phase 1.2 independent QA + Nicole acceptance | **Independently verified** · **Product-owner accepted** · **Closed** |
 | Phase 1.3 Soft Coastal + Trip Pulse v2 | **Product-owner accepted** · **Closed** |
-| Phase 1.4 verification, acceptance, and 2A authorization | **Authorized** — awaiting Phase 2A authorization |
-| Phase 2A journey domain model | **Not started** — **blocked** |
-| Phase 2B Spain structured data | **Not started** |
+| Phase 1.4 verification, acceptance, and 2A authorization | **Closed** |
+| Phase 2A journey domain model | **Implemented** · **Automatically verified** (local; CI pending) — not yet consumed by UI |
+| Phase 2B Spain structured data | **In implementation** — structured dataset + `mockData.ts` corrections landed; not yet consumed by UI |
 | Phase 2C journey readiness validation | **Not started** |
 | Phase 3 map-led Itinerary | **Planned** |
-| New application implementation | **Paused** — awaiting Phase 1.4 closure and Phase 2A authorization |
+| New application implementation | **Authorized** — Phase 2A; Phase 2B pending explicit authorization |
 
 **Repository reset:** Clean single-commit history on `main` at `ecd6377`, pushed to GitHub. Prior commit ranges are superseded; application evidence is consolidated in this baseline.
 
-**Active verification/acceptance:** Phase 1.4 — Nicole product-owner acceptance, GitHub CI confirmation, and Phase 2A authorization.
+**Active implementation phase:** Phase 2A implemented (D-034); Phase 2B in implementation pending explicit authorization.
 
 ---
 
@@ -49,24 +49,23 @@ The designated planner for an experience-heavy leisure trip who has saved more i
 | Nicole product-owner acceptance (Phase 1.2) | **Accepted** — packing reset and anchor consistency verified manually |
 | Independent QA (Phase 1.3) | **Approved** — evidence consolidated at `ecd6377`; responsive/a11y closure passed |
 | Nicole product-owner acceptance (Phase 1.3) | **Accepted** — 2026-07-12; Nicole: *"I accept Phase 1.3"* (D-033) |
-| Phase 1.4 authorization | **Authorized** — non-feature gate phase |
-| Phase 2A authorization | **Not authorized** — blocked until Nicole explicitly authorizes Phase 2A |
+| Phase 1.4 authorization | **Closed** — gate complete (D-034) |
+| Phase 2A authorization | **Authorized** — 2026-07-12; Nicole: *"I authorize Phase 2A"* (D-034) |
 
-**Phase 1.4 evidence collected:** clean GitHub baseline pushed to `main` at `ecd6377`; local typecheck/test/build pass; docs/control-plane sync; CI workflow committed.
+**Phase 1.4 evidence collected:** clean GitHub baseline pushed to `main` at `ecd6377`; local typecheck/test/build pass; docs/control-plane sync; CI workflow committed; Phase 1.3 product-owner acceptance (D-033); Phase 2A authorization (D-034).
 
-**Phase 1.4 evidence still required:** explicit Phase 2A authorization; optional accepted-baseline tag on `main`.
+**Phase 1.4 optional follow-up:** accepted-baseline tag on `main` (Nicole-owned commit).
 
 ---
 
 ## Next authorized application sequence
 
-**Phase 1.4** is the current gate phase:
+**Phase 2B** is the current implementation phase:
 
-1. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization
-2. **Phase 2A** — Real journey domain model *(blocked)*
-3. **Phase 2B** — Spain 2026 structured data conversion
-4. **Phase 2C** — Journey readiness validation
-5. **Phase 3** — Flagship map-led Itinerary
+1. **Phase 2A** — Real journey domain model *(implemented)*
+2. **Phase 2B** — Spain 2026 structured data conversion *(in implementation — authorization pending)*
+3. **Phase 2C** — Journey readiness validation
+4. **Phase 3** — Flagship map-led Itinerary
 
 See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for Phases 4–9.
 
@@ -78,9 +77,9 @@ See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for Phases 4–9.
 
 | Blocker | Notes |
 |---|---|
-| `mockData.ts` vs master note conflicts | 12 documented — resolved in Phase 2B |
-| July 28 `TripDay` missing | Deferred to Phase 2B |
-| Phase 2A authorization | **Blocked** — requires explicit Nicole authorization for Phase 2A |
+| `mockData.ts` vs master note conflicts | 12 documented — corrections applied to `mockData.ts` in Phase 2B work; §0 resolution not yet independently verified |
+| Phase 2B authorization | `mockData.ts` corrections and `src/data/journey/` exceed D-034's stated Phase 2A scope — Nicole to ratify or narrow |
+| Journey dataset not consumed by UI | `src/data/journey/` and `src/lib/journey/` are exercised only by tests; UI still reads `mockData.ts` |
 | Map first-install risk | Disposable spike authorized by D-029; production implementation remains Phase 3 |
 
 ---
@@ -132,7 +131,7 @@ Full log: [DECISION_LOG.md](DECISION_LOG.md)
 5. Do not invent accepted or independently verified work.
 6. When blocked, stop — do not expand scope.
 
-**Current authorization:** Phase 1.4 gate work is **authorized**. Phase 1.3 is **closed** (D-033). **Do not start Phase 2A** until Nicole explicitly authorizes Phase 2A. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
+**Current authorization:** Phase 2A is **authorized** (D-034) and implemented. Phase 2B data work exists in the tree but still needs explicit authorization. Do not expand into map UI or MapLibre. D-029 permits only a disposable, non-authoritative map spike before Phase 3.
 
 ---
 

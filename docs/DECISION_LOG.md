@@ -4,6 +4,21 @@ ADR-lite format. Newest first.
 
 ---
 
+## D-034 — Phase 2A authorization
+
+| Field | Value |
+|---|---|
+| **ID** | D-034 |
+| **Date / phase** | 2026-07-12 / Phase 1.4 (handoff) |
+| **Decision** | Nicole authorizes Phase 2A — Real journey domain model |
+| **Rationale** | Phase 1.4 gate criteria met: Phase 1.3 product-owner accepted (D-033), CI-backed green runs on `main` (D-030), clean baseline at `ecd6377` (D-032) |
+| **Consequence** | Phase 1.4 is **closed**; Phase 2A implementation is **authorized**; scope limited to domain types, helpers, and validation rules per Itinerary spec — no `mockData.ts` rewrite, no map UI |
+| **Revisit if** | Domain model scope expands beyond Phase 2A non-goals or conflicts with accepted Trip Pulse hierarchy |
+
+**Evidence:** Nicole statement (2026-07-12): *"I authorize Phase 2A"*. Prerequisites: D-033 ✅; D-030 CI green ✅; baseline `ecd6377` on `main`.
+
+---
+
 ## D-033 — Phase 1.3 product-owner acceptance
 
 | Field | Value |

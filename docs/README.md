@@ -16,13 +16,15 @@ TripCanvas turns scattered travel inspiration into **calm days you will actually
 | Phase 1.1 hardening | Implemented · Automatically verified |
 | Phase 1.2 independent QA + Nicole acceptance | Independently verified · Product-owner accepted · Closed |
 | Phase 1.3 Soft Coastal / Trip Pulse v2 | Product-owner accepted · Closed |
-| Phase 1.4 verification / acceptance / 2A authorization | Authorized — awaiting Phase 2A authorization |
-| Phase 2A / 2B / 2C journey data | Not started — **Phase 2A blocked** |
+| Phase 1.4 verification / acceptance / 2A authorization | Closed |
+| Phase 2A journey domain model | Implemented · Automatically verified (local; CI pending) — not yet consumed by UI |
+| Phase 2B Spain structured data | In implementation — structured dataset + `mockData.ts` corrections landed |
+| Phase 2C journey readiness validation | Not started |
 | Phase 3 map-led Itinerary | Planned — not started |
 
 **Current branch:** `main`
 **GitHub:** https://github.com/Nicolercc/travel-agent
-**Current authorization:** Phase 1.3 is closed (D-033). Phase 1.4 gate work continues — no Phase 2A code until Nicole explicitly authorizes Phase 2A. GitHub CI is green on `main`.
+**Current authorization:** Phase 1.4 closed (D-034). Phase 2A authorized and implemented; Phase 2B work has started ahead of explicit authorization (see [PROJECT_CONTROL_PLANE.md](PROJECT_CONTROL_PLANE.md) → Current blockers). GitHub CI was last verified green at `6096a81`.
 
 ---
 

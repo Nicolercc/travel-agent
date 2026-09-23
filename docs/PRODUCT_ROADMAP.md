@@ -9,9 +9,9 @@ Ordered delivery plan. Status vocabulary (use exactly — do not say "complete" 
 ## Approved sequencing (post–Phase 1.2)
 
 1. **Phase 1.3** — Soft Coastal Design System and Trip Pulse v2 *(product-owner accepted · closed)*
-2. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization *(authorized — awaiting Phase 2A authorization)*
-3. **Phase 2A** — Real journey domain model
-4. **Phase 2B** — Spain 2026 structured data conversion
+2. **Phase 1.4** — Verification, acceptance, and Phase 2A authorization *(closed)*
+3. **Phase 2A** — Real journey domain model *(implemented)*
+4. **Phase 2B** — Spain 2026 structured data conversion *(in implementation — authorization pending)*
 5. **Phase 2C** — Journey readiness validation
 6. **Phase 3** — Flagship map-led Itinerary
 7. **Phases 4–9** — Inbox → Day Builder → Logistics Wallet → Trip Mode → Packing intelligence → Launch readiness
@@ -138,7 +138,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner for docs/automation; Nicole for acceptance; QA for verification evidence |
 | **Review owner** | Nicole (product-owner), QA (verification evidence) |
 | **Acceptance criteria** | Gates 3 / 5 / 6 are passed or explicitly limited; Phase 1.3 marked Product-owner accepted if Nicole signs off; clean accepted baseline recorded at `ecd6377`; Phase 2A marked Authorized only after acceptance and green CI |
-| **Status** | **Authorized** — awaiting Phase 2A authorization |
+| **Status** | **Closed** |
 
 ### Phase 1.4 task breakdown
 
@@ -149,7 +149,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | A — Automation | Optional repeatable browser smoke for mobile ribbon and Trip Mode 44px targets | Implementation owner | Script or documented local procedure exists |
 | B — Product acceptance | Nicole walkthrough: Trip Pulse hierarchy, Soft Coastal taste, ribbon keyboard, Trip Mode controls | Nicole | Explicit accept recorded ✅ (D-033) |
 | C — Documentation | Sync roadmap, control plane, release gates, and Trip Pulse spec | Implementation owner | No status contradictions remain ✅ |
-| D — Handoff | Tag accepted baseline and authorize Phase 2A | Nicole / implementation owner | Phase 2A starts from accepted SHA — **blocked** |
+| D — Handoff | Tag accepted baseline and authorize Phase 2A | Nicole / implementation owner | Phase 2A authorized ✅ (D-034); optional baseline tag pending |
 
 **Stop rule:** Phase 2A code does not start until Nicole product-owner acceptance is recorded, GitHub CI is green, and Phase 2A is explicitly authorized.
 
@@ -167,7 +167,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner |
 | **Review owner** | reviewer (architecture read-only) |
 | **Acceptance criteria** | Model supports legs, events, unresolved tasks, `TripDayKind`; no UI prose as source |
-| **Status** | **Not started** — **blocked** (explicit Phase 2A authorization required) |
+| **Status** | **Implemented** · **Automatically verified** (local; CI pending) — not yet consumed by UI |
 
 ---
 
@@ -183,7 +183,7 @@ Carry forward from QA Phase 1.2 review; addressed during Phase 1.3:
 | **Implementation owner** | Implementation owner |
 | **Review owner** | reviewer, QA |
 | **Acceptance criteria** | Conflicts in Itinerary spec §0 resolved; booking readiness still truthful |
-| **Status** | **Not started** |
+| **Status** | **In implementation** — structured dataset + `mockData.ts` corrections landed; not yet consumed by UI — authorization pending |
 
 ---
 
