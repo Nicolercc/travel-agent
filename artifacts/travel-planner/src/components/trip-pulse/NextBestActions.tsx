@@ -1,12 +1,13 @@
 import { Link } from "wouter";
-import { ArrowRight, Anchor, Inbox, Gauge, Link2 } from "lucide-react";
+import { ArrowRight, Anchor, Inbox, Gauge, Link2, Plane } from "lucide-react";
 import { NextBestAction } from "@/lib/trip-metrics";
 
 const ACTION_ICONS: Record<string, typeof Anchor> = {
   "missing-anchors": Anchor,
+  "days-needing-logistics": Plane,
+  "missing-bookings": Link2,
   "unsorted-inbox": Inbox,
   "overloaded-days": Gauge,
-  "missing-links": Link2,
 };
 
 interface NextBestActionsProps {
