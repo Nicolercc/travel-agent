@@ -1,126 +1,137 @@
-import { useTrip } from "@/context/TripContext";
-import { formatDateOnly } from "@/lib/dates";
-import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "wouter";
-import { AlertCircle, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import { Link, useParams } from "wouter";
+import { ArrowLeft } from "lucide-react";
+import { DayPanel } from "@/components/itinerary/DayPanel";
+import { DayRow, dayRowId } from "@/components/itinerary/DayRow";
+import { LegConnector } from "@/components/itinerary/LegConnector";
+import { RouteDiagram } from "@/components/itinerary/RouteDiagram";
+import { useDemoNow } from "@/hooks/useDemoNow";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useAnnounce } from "@/lib/a11y/announcer";
+import { formatDateOnly, toLocalDateOnlyString } from "@/lib/domain/dates";
+import { selectFocusDayId, selectItinerary, selectRouteDiagram, selectTripRoute, type ItineraryDay } from "@/lib/selectors";
+import { useTrip } from "@/lib/state/TripProvider";
 
+const PANEL_HEADING_ID = "itinerary-day-heading";
+
+function dayRange(days: ItineraryDay[]): string {
+  const first = formatDateOnly(days[0].view.day.date, "MMM d");
+  const last = formatDateOnly(days[days.length - 1].view.day.date, "MMM d");
+  return first === last ? first : `${first} – ${last}`;
+}
+
+function InvalidDayNotice({ requested }: { requested: string }) {
+  return (
+    <p role="status" className="rounded-lg border border-sc-status-attention-border bg-sc-status-attention-bg px-4 py-3 text-sm text-sc-status-attention-fg">
+      There is no day “{requested}” in this trip, so the first day is shown.
+    </p>
+  );
+}
+
+/**
+ * Itinerary (RFC §8): how the trip flows, night by night. The URL holds the selection
+ * (/itinerary/:dayId). Wide screens: timeline + sticky panel with the Route diagram. Medium:
+ * the selected day expands inline under its row. Narrow: selecting a day opens it as a full view.
+ */
 export default function Itinerary() {
-  const { trip, days, places } = useTrip();
+  const { dayId: requested } = useParams<{ dayId?: string }>();
+  const { seed, state } = useTrip();
+  const now = useDemoNow();
+  const announce = useAnnounce();
+  const wide = useMediaQuery("(min-width: 1024px)");
+  const medium = useMediaQuery("(min-width: 768px)") && !wide;
+  const narrow = !wide && !medium;
 
-  const daysWithMeta = days.map(day => {
-    const dayPlaces = places.filter(p => p.assigned_day_id === day.id);
-    const anchor = dayPlaces.find(p => p.day_section === 'anchor');
-    const booked = dayPlaces.filter(p => p.day_section === 'booked');
-    const planned = dayPlaces.filter(p => p.day_section === 'planned');
-    const hasAnchor = !!anchor;
-    const activeItems = dayPlaces.filter(p => p.day_section !== 'do-not-cram' && p.day_section !== 'backup');
-    const isOverloaded = activeItems.length > 6;
-    return { ...day, anchor, booked, planned, hasAnchor, isOverloaded, count: dayPlaces.length };
-  });
+  const regions = selectItinerary(state, seed);
+  const days = regions.flatMap((region) => region.days);
+  const found = requested ? days.find((item) => item.view.day.id === requested) : undefined;
+  const invalid = requested !== undefined && found === undefined;
+  const focusDayId = selectFocusDayId(seed, toLocalDateOnlyString(now));
+  const selected = found ?? (invalid ? days[0] : wide ? days.find((item) => item.view.day.id === focusDayId) : undefined);
 
-  const cities = [...new Set(days.map(d => d.city))];
+  // Announce a changed selection (not the first render); on narrow screens, move focus into the new view.
+  const previous = useRef<string | undefined>(requested);
+  useEffect(() => {
+    const before = previous.current;
+    previous.current = requested;
+    if (before === requested) return;
+    if (requested && selected) {
+      announce(`Showing ${formatDateOnly(selected.view.day.date, "EEEE, MMMM d")}: ${selected.view.day.title}.`);
+      if (narrow) document.getElementById(PANEL_HEADING_ID)?.focus();
+    } else if (!requested && before) {
+      // Back to the timeline: return focus to the day just viewed.
+      document.getElementById(dayRowId(before))?.focus();
+    }
+  }, [requested, selected, narrow, announce]);
+
+  if (narrow && selected && requested) {
+    return (
+      <div className="max-w-2xl space-y-6 page-enter">
+        <Link href="/itinerary" className="inline-flex min-h-[44px] items-center gap-2 text-sm text-muted-foreground hover:text-foreground focus-ring rounded-md">
+          <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Back to trip
+        </Link>
+        {invalid && <InvalidDayNotice requested={requested} />}
+        <DayPanel item={selected} headingLevel={1} headingId={PANEL_HEADING_ID} />
+        <LegConnector legs={selected.keyLegs} otherMoves={selected.otherMoves} dateLabel={formatDateOnly(selected.view.day.date, "EEE MMM d")} />
+      </div>
+    );
+  }
+
+  const route = selectRouteDiagram(seed);
+  const selectedId = selected?.view.day.id ?? null;
 
   return (
-    <div className="space-y-10 page-enter max-w-3xl">
+    <div className="space-y-8 page-enter">
       <header className="space-y-2">
-        <h1 className="text-4xl md:text-5xl font-serif text-primary tracking-tight">Itinerary</h1>
-        <p className="text-lg text-muted-foreground">{trip.title} · {trip.route}</p>
-        <div className="flex flex-wrap gap-2 pt-1">
-          {cities.map(city => (
-            <span key={city} className="text-xs bg-secondary text-muted-foreground px-2.5 py-1 rounded-full border border-border">{city}</span>
-          ))}
-        </div>
+        <h1 className="text-4xl font-serif tracking-tight text-primary md:text-5xl">Itinerary</h1>
+        <p className="text-lg text-muted-foreground">
+          {seed.trip.title} · {selectTripRoute(seed).join(" → ")}
+        </p>
       </header>
 
-      <div className="space-y-0 relative">
-        {/* Timeline line */}
-        <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
+      {invalid && requested && <InvalidDayNotice requested={requested} />}
 
-        {daysWithMeta.map((day, idx) => (
-          <div key={day.id} className="relative flex gap-6 pb-8 last:pb-0" data-testid={`itinerary-day-${day.id}`}>
-            {/* Day number bubble */}
-            <div className="relative z-10 flex flex-col items-center shrink-0">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold font-serif shadow-sm border-2 border-background ${day.hasAnchor ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
-                {idx + 1}
-              </div>
-            </div>
-
-            {/* Day card */}
-            <div className="flex-1 min-w-0 -mt-1">
-              <Card className={`transition-all ${day.hasAnchor ? 'border-border hover:border-primary/40' : 'border-dashed border-sc-status-attention-border hover:border-sc-status-progress'}`}>
-                <CardContent className="p-5 space-y-3">
-                  <Link href={`/day/${day.id}`}>
-                    <div className="space-y-3 cursor-pointer hover-elevate rounded-lg -m-1 p-1">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-                              {formatDateOnly(day.date, "EEE, MMM d")}
-                            </p>
-                            <span className="text-xs text-muted-foreground bg-secondary px-1.5 py-0.5 rounded">{day.city}</span>
-                          </div>
-                          <h3 className="font-serif text-lg font-bold text-foreground mt-1 leading-snug">{day.title}</h3>
-                          <p className="text-xs text-muted-foreground italic mt-0.5">{day.day_vibe}</p>
-                        </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          {day.isOverloaded && (
-                            <span title="Overloaded day" className="text-sc-status-progress">
-                              <Zap className="w-3.5 h-3.5" />
-                              <span className="sr-only">Overloaded day</span>
-                            </span>
-                          )}
-                          {!day.hasAnchor && (
-                            <span title="Missing anchor" className="text-sc-status-attention-fg">
-                              <AlertCircle className="w-3.5 h-3.5" />
-                              <span className="sr-only">Missing anchor</span>
-                            </span>
-                          )}
-                          <span className="text-xs text-muted-foreground">{day.count} places</span>
-                        </div>
-                      </div>
-
-                      {day.anchor ? (
-                        <div className="bg-secondary/50 px-3 py-2.5 rounded-lg">
-                          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Anchor</p>
-                          <p className="font-serif font-semibold text-foreground">{day.anchor.name}</p>
-                        </div>
-                      ) : (
-                        <div className="border border-dashed border-sc-status-attention-border bg-sc-status-attention-bg/50 px-3 py-2.5 rounded-lg">
-                          <p className="text-xs text-sc-status-attention-fg italic">No anchor set for this day</p>
-                        </div>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="space-y-8 lg:col-span-7">
+          {medium && <RouteDiagram data={route} selectedDayId={selectedId} className="max-w-xl" />}
+          {regions.map((group) => (
+            <section key={`${group.region.id}-${group.days[0].view.day.id}`} aria-labelledby={`region-${group.days[0].view.day.id}`} className="space-y-3">
+              <h2
+                id={`region-${group.days[0].view.day.id}`}
+                className="sticky top-[60px] z-[5] -mx-1 flex items-baseline gap-3 bg-background/95 px-1 py-2 font-serif text-2xl font-semibold text-foreground lg:static"
+              >
+                {group.region.name}
+                <span className="sr-only">,</span>{" "}
+                <span className="font-sans text-sm font-normal text-muted-foreground">{dayRange(group.days)}</span>
+              </h2>
+              <ol className="list-none space-y-0 p-0">
+                {group.days.map((item) => {
+                  const isSelected = item.view.day.id === selectedId;
+                  return (
+                    <li key={item.view.day.id} data-testid={`itinerary-day-${item.view.day.id}`}>
+                      <DayRow view={item.view} selected={isSelected} />
+                      {medium && isSelected && (
+                        <section aria-labelledby={PANEL_HEADING_ID} className="mt-2 rounded-xl border border-border bg-card p-5">
+                          <DayPanel item={item} headingLevel={3} headingId={PANEL_HEADING_ID} />
+                        </section>
                       )}
+                      <LegConnector legs={item.keyLegs} otherMoves={item.otherMoves} dateLabel={formatDateOnly(item.view.day.date, "EEE MMM d")} />
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          ))}
+        </div>
 
-                      {(day.booked.length > 0 || day.planned.length > 0) && (
-                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                          {day.booked.length > 0 && (
-                            <span className="flex items-center gap-1 bg-sc-status-ready-surface text-sc-status-ready px-2 py-0.5 rounded-full border border-sc-status-attention-border">
-                              {day.booked.length} booked
-                            </span>
-                          )}
-                          {day.planned.length > 0 && (
-                            <span className="flex items-center gap-1 bg-secondary text-muted-foreground px-2 py-0.5 rounded-full border border-border">
-                              {day.planned.length} planned
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-
-                  <div className="flex gap-2 pt-1">
-                    <Button asChild variant="outline" size="sm" className="text-xs h-7">
-                      <Link href={`/day/${day.id}`}>Plan Day</Link>
-                    </Button>
-                    <Button asChild size="sm" className="text-xs h-7">
-                      <Link href={`/trip-mode/${day.id}`}>Trip Mode</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+        {wide && selected && (
+          <section aria-labelledby={PANEL_HEADING_ID} className="lg:col-span-5">
+            <div className="space-y-6 rounded-2xl border border-border bg-card p-6 lg:sticky lg:top-6">
+              <RouteDiagram data={route} selectedDayId={selectedId} />
+              <DayPanel item={selected} headingLevel={2} headingId={PANEL_HEADING_ID} />
             </div>
-          </div>
-        ))}
+          </section>
+        )}
       </div>
     </div>
   );

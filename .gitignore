@@ -48,3 +48,8 @@ Thumbs.db
 .cache/
 .local/
 .gstack/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/

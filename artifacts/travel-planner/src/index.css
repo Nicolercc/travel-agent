@@ -88,7 +88,7 @@
   --sc-raw-deep-plum: 295 14% 32%;
 
   --sc-raw-ink: 320 7% 18%;
-  --sc-raw-muted-ink: 320 3% 44%;
+  --sc-raw-muted-ink: 320 3% 39%; /* 44% failed 4.5:1 on stone and lilac surfaces (axe, E11) */
 
   --sc-raw-attention-bg: 310 35% 93%;
   --sc-raw-attention-fg: 320 17% 37%;
@@ -108,7 +108,7 @@
 
   --sc-status-ready: var(--sc-raw-deep-coastal-blue);
   --sc-status-ready-foreground: 189 38% 28%;
-  --sc-status-progress: var(--sc-raw-soft-plum);
+  --sc-status-progress: 297 12% 40%; /* text-safe plum; soft-plum stays for route lines */
   --sc-status-attention-bg: var(--sc-raw-attention-bg);
   --sc-status-attention-fg: var(--sc-raw-attention-fg);
   --sc-status-critical: var(--sc-raw-critical);
@@ -234,6 +234,11 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+  /* One visible focus indicator everywhere (RFC §15); components using .focus-ring draw the same token as a ring. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-tight;
   }
@@ -241,7 +246,7 @@
 
 @layer utilities {
   .trip-pulse-enter {
-    @apply motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500;
+    @apply motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200;
   }
 
   .trip-pulse-surface {
@@ -269,6 +274,18 @@
   }
 
   .page-enter {
-    @apply motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700;
+    @apply motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200;
+  }
+}
+
+/* Reduced motion (RFC §15): third-party primitives animate regardless of motion-safe, so settle everything. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

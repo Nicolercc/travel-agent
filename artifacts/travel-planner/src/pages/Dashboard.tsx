@@ -1,122 +1,64 @@
-import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "wouter";
-import { useTrip } from "@/context/TripContext";
-import { mockLogistics } from "@/data/mockData";
-import { TripHero } from "@/components/trip-pulse/TripHero";
-import { NextBestActions } from "@/components/trip-pulse/NextBestActions";
-import { TripReadiness } from "@/components/trip-pulse/TripReadiness";
-import { JourneyRibbon } from "@/components/trip-pulse/JourneyRibbon";
-import { DayPreview } from "@/components/trip-pulse/DayPreview";
-import { QuickAccess } from "@/components/trip-pulse/QuickAccess";
-import { readPackingProgress, subscribePackingProgress } from "@/lib/packing-storage";
+import { useState } from "react";
+import { DayPreview } from "@/components/pulse/DayPreview";
+import { JourneyRibbon } from "@/components/pulse/JourneyRibbon";
+import { NEEDS_YOU_HEADING_ID, NeedsYou, issueControlId } from "@/components/pulse/NeedsYou";
+import { PulseHeader } from "@/components/pulse/PulseHeader";
+import { ReadinessSummary } from "@/components/pulse/ReadinessSummary";
+import { useBookingResolver } from "@/hooks/useBookingResolver";
+import { useDemoNow } from "@/hooks/useDemoNow";
+import { useAnnounce } from "@/lib/a11y/announcer";
+import { useFocusAfterRender } from "@/lib/a11y/focus";
+import { toLocalDateOnlyString } from "@/lib/domain/dates";
 import {
-  computeDaysWithMeta,
-  computeNextBestActions,
-  computePlanningHealth,
-  computeTripReadiness,
-  getDashboardFeatureDay,
-  getDayPreviewSnapshot,
-  getTripPhase,
-} from "@/lib/trip-metrics";
+  selectDayViews,
+  selectFocusDayId,
+  selectReadiness,
+  selectTripIssues,
+  selectTripPhase,
+  selectTripRoute,
+} from "@/lib/selectors";
+import { useTrip } from "@/lib/state/TripProvider";
 
 export default function Dashboard() {
-  const [location] = useLocation();
-  const { trip, days, places } = useTrip();
-  const [packingRevision, setPackingRevision] = useState(0);
+  const { seed, state, dispatch } = useTrip();
+  const now = useDemoNow();
+  const announce = useAnnounce();
+  const focusLater = useFocusAfterRender();
+  const bookings = useBookingResolver();
+  const days = selectDayViews(state, seed);
+  const issues = selectTripIssues(state, seed, now);
+  const [selectedDayId, setSelectedDayId] = useState(() => selectFocusDayId(seed, toLocalDateOnlyString(now)));
+  const selected = days.find((view) => view.day.id === selectedDayId) ?? days[0];
 
-  useEffect(
-    () => subscribePackingProgress(() => setPackingRevision((n) => n + 1)),
-    [],
-  );
+  // After an issue is resolved it disappears: focus the next issue, else the previous, else the heading.
+  const focusAfterResolving = (index: number) =>
+    [issues[index + 1], issues[index - 1]].filter(Boolean).map((issue) => issueControlId(issue.key)).concat(NEEDS_YOU_HEADING_ID);
 
-  const health = useMemo(
-    () => computePlanningHealth(days, places, mockLogistics),
-    [days, places],
-  );
-  const daysWithMeta = useMemo(
-    () => computeDaysWithMeta(days, places),
-    [days, places],
-  );
-  const phase = useMemo(() => getTripPhase(trip), [trip]);
-  const actions = useMemo(
-    () => computeNextBestActions(health),
-    [health],
-  );
-  const packingProgress = useMemo(
-    () => readPackingProgress(),
-    [location, packingRevision],
-  );
-  const readiness = useMemo(
-    () => computeTripReadiness(days, places, mockLogistics, packingProgress),
-    [days, places, packingProgress],
-  );
-  const featureDay = useMemo(
-    () => getDashboardFeatureDay(days),
-    [days],
-  );
-
-  const defaultDayId = featureDay?.day.id ?? days[0]?.id ?? "";
-  const [selectedDayId, setSelectedDayId] = useState(defaultDayId);
-
-  const selectedDay =
-    days.find((d) => d.id === selectedDayId) ?? days[0] ?? null;
-  const previewSnapshot = selectedDay
-    ? getDayPreviewSnapshot(selectedDay, places)
-    : null;
-
-  const hiddenQuickLinks = useMemo(() => {
-    const hidden = new Set<"inbox" | "logistics" | "trip-mode">();
-    for (const action of actions) {
-      if (action.id === "unsorted-inbox") hidden.add("inbox");
-      if (
-        action.id === "missing-bookings" ||
-        action.id === "days-needing-logistics"
-      ) {
-        hidden.add("logistics");
-      }
-    }
-    return hidden;
-  }, [actions]);
+  const resolveTask = (taskId: string, index: number) => {
+    const task = seed.tasks.find((candidate) => candidate.id === taskId);
+    dispatch({ type: "setTaskResolved", taskId, resolved: true });
+    announce(`Done: ${task?.label ?? "task"}. ${issues.length - 1 === 1 ? "1 item" : `${issues.length - 1} items`} still need you.`);
+    focusLater(...focusAfterResolving(index));
+  };
 
   return (
-    <div className="trip-pulse-enter space-y-8 sm:space-y-10 lg:space-y-12 min-w-0 overflow-x-hidden max-w-6xl">
-      <TripHero trip={trip} phase={phase} />
+    <div className="space-y-8 sm:space-y-10 min-w-0 max-w-6xl">
+      <PulseHeader trip={seed.trip} route={selectTripRoute(seed)} phase={selectTripPhase(seed, now)} demoDate={now} />
 
-      <JourneyRibbon
-        days={daysWithMeta}
-        places={places}
-        logistics={mockLogistics}
-        selectedDayId={selectedDay?.id ?? defaultDayId}
-        onSelectDay={setSelectedDayId}
+      <NeedsYou
+        issues={issues}
+        onResolveBooking={(bookingId, index) => bookings.open(bookingId, focusAfterResolving(index))}
+        onResolveTask={resolveTask}
       />
 
-      {selectedDay && previewSnapshot && (
-        <DayPreview
-          day={selectedDay}
-          snapshot={previewSnapshot}
-          logistics={mockLogistics}
-        />
-      )}
-
-      <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-7 min-w-0">
-          <NextBestActions actions={actions} />
-        </div>
-
-        <div className="lg:col-span-5 min-w-0">
-          <TripReadiness
-            summary={readiness.summary}
-            dimensions={readiness.dimensions}
-          />
-        </div>
+      <div className="space-y-4">
+        <JourneyRibbon days={days} selectedDayId={selected.day.id} onSelectDay={setSelectedDayId} />
+        <DayPreview view={selected} />
       </div>
 
-      <QuickAccess
-        tripModeDayId={selectedDay?.id ?? null}
-        hasUnsortedPlaces={health.unsortedPlaces.length > 0}
-        hideInbox={hiddenQuickLinks.has("inbox")}
-        hideLogistics={hiddenQuickLinks.has("logistics")}
-      />
+      <ReadinessSummary summary={selectReadiness(state, seed)} />
+
+      {bookings.sheet}
     </div>
   );
 }

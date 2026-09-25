@@ -263,6 +263,6 @@ Personality through **imagery, texture, route geometry, and copy** — not unrel
 | Item | Status |
 |---|---|
 | Design tokens documented | Canonical (this file) |
-| CSS variables in app | **Not implemented** — current code uses legacy leg-accent tokens |
-| Trip Pulse v2 visual pass | Planned — Phase 1.3 — [TRIP_PULSE_V2_SPEC.md](../specs/TRIP_PULSE_V2_SPEC.md) |
-| Itinerary map styling | Planned — Phase 3 — [ITINERARY_JOURNEY_MAP_SPEC.md](../specs/ITINERARY_JOURNEY_MAP_SPEC.md) |
+| CSS variables in app | Implemented — `--sc-*` tokens in `artifacts/travel-planner/src/index.css`. Two text tokens were darkened for WCAG AA contrast (muted ink 44%→39% lightness; status-progress text 40%). |
+| Trip Pulse v2 visual pass | Shipped, then revised by RFC-001 — [TRIP_PULSE_V2_SPEC.md](TRIP_PULSE_V2_SPEC.md) |
+| Itinerary map styling | Not built. The Itinerary uses a small SVG Route diagram instead of a map (see [ARCHITECTURE.md](../ARCHITECTURE.md)); the map spec is archived: [ITINERARY_JOURNEY_MAP_SPEC.md](../archive/ITINERARY_JOURNEY_MAP_SPEC.md) |

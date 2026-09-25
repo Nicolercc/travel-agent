@@ -1,13 +1,13 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Switch, Route, Redirect, Router as WouterRouter } from "wouter";
 import NotFound from "@/pages/not-found";
-import { MainLayout } from "@/components/layout/MainLayout";
-import { TripProvider } from "@/context/TripContext";
+import { MainLayout } from "@/app/layout/MainLayout";
+import { TripProvider } from "@/lib/state/TripProvider";
+import { seed } from "@/data/seed";
+import { ErrorBoundary } from "@/app/ErrorBoundary";
+import { AnnouncerProvider } from "@/lib/a11y/announcer";
+import { RouteFocus } from "@/lib/a11y/route-focus";
 
 import Landing from "@/pages/Landing";
-import TripLibrary from "@/pages/TripLibrary";
 import Dashboard from "@/pages/Dashboard";
 import Inbox from "@/pages/Inbox";
 import DayBuilder from "@/pages/DayBuilder";
@@ -16,13 +16,16 @@ import Itinerary from "@/pages/Itinerary";
 import Logistics from "@/pages/Logistics";
 import Packing from "@/pages/Packing";
 
-const queryClient = new QueryClient();
-
-function Router() {
+/** The route table (exported for integration tests). */
+export function AppRoutes() {
   return (
-    <Switch>
+    <>
+      <RouteFocus />
+      <Switch>
       <Route path="/" component={Landing} />
-      <Route path="/trips" component={TripLibrary} />
+      <Route path="/trips">
+        <Redirect to="/dashboard" replace />
+      </Route>
       <Route path="/dashboard">
         <MainLayout><Dashboard /></MainLayout>
       </Route>
@@ -35,7 +38,7 @@ function Router() {
       <Route path="/trip-mode/:dayId">
         <TripMode />
       </Route>
-      <Route path="/itinerary">
+      <Route path="/itinerary/:dayId?">
         <MainLayout><Itinerary /></MainLayout>
       </Route>
       <Route path="/logistics">
@@ -46,21 +49,21 @@ function Router() {
       </Route>
       <Route component={NotFound} />
     </Switch>
+    </>
   );
 }
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TripProvider>
-        <TooltipProvider>
+    <ErrorBoundary scope="app">
+      <TripProvider seed={seed}>
+        <AnnouncerProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
+            <AppRoutes />
           </WouterRouter>
-          <Toaster />
-        </TooltipProvider>
+        </AnnouncerProvider>
       </TripProvider>
-    </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

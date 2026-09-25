@@ -3,14 +3,18 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent $npm_execpath\" in *pnpm*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
     "dev": "pnpm --filter @workspace/travel-planner run dev",
     "build": "pnpm run typecheck && pnpm --filter @workspace/travel-planner run build",
     "preview": "pnpm --filter @workspace/travel-planner run serve",
     "typecheck": "pnpm --filter @workspace/travel-planner run typecheck",
-    "test": "pnpm --filter @workspace/travel-planner run test"
+    "test": "pnpm --filter @workspace/travel-planner run test",
+    "test:types": "pnpm --filter @workspace/travel-planner run test:types",
+    "lint": "pnpm --filter @workspace/travel-planner run lint",
+    "e2e": "pnpm --filter @workspace/travel-planner run e2e"
   },
   "private": true,
+  "packageManager": "pnpm@11.1.3",
   "devDependencies": {
     "prettier": "^3.8.4",
     "typescript": "~5.9.3"
